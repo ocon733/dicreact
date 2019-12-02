@@ -1,4 +1,5 @@
 import React from 'react';
+import Form from 'react-bootstrap/Form';
 
 class Nueva extends React.Component{
     constructor(){
@@ -21,9 +22,11 @@ class Nueva extends React.Component{
 
     render(){
         return(
-            <form onSubmit={this.handleSubmit}>
-                <label htmlFor="english">Inglés</label>
-                <input id="english" name="english" type="text"/>
+            <Form onSubmit={this.handleSubmit}>
+                <Form.Group controlId="english">
+                <Form.Label htmlFor="english">Inglés</Form.Label>
+                <Form.Control  type="text"/>
+                </Form.Group>
 
                 <label htmlFor="spain">Español</label>
                 <input id="spain" name="spain" type="text"/>
@@ -40,7 +43,7 @@ class Nueva extends React.Component{
 
 
                 <button type="submit">Guardar</button>
-            </form>
+            </Form>
         );
     }
 }
