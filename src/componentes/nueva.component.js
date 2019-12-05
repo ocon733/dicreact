@@ -23,24 +23,30 @@ class Nueva extends React.Component{
     render(){
         return(
             <Form onSubmit={this.handleSubmit}>
-                <Form.Group controlId="english">
-                <Form.Label htmlFor="english">Inglés</Form.Label>
-                <Form.Control  type="text"/>
+                <Form.Group controlId="english" >
+                    <Form.Label >Inglés</Form.Label>
+                    <Form.Control name="english"  type="text"/>
                 </Form.Group>
 
-                <label htmlFor="spain">Español</label>
-                <input id="spain" name="spain" type="text"/>
+                <Form.Group controlId="spain" >
+                    <Form.Label >Español</Form.Label>
+                    <Form.Control name="spain"  type="text"/>
+                </Form.Group>
 
-                <label htmlFor="descripcion">Uso en frase en inglés</label>
-                <input id="descripcion" name="descripcion" type="text"/>
+                <Form.Group controlId="descripcion" >
+                    <Form.Label >Uso en frase en inglés</Form.Label>
+                    <Form.Control name="descripcion"  type="text"/>
+                </Form.Group>
 
-                <label htmlFor="sonirelmemotecdo">Regla memotécnicaPronunciación fonética</label>
-                <input id="relmemotec" name="relmemotec" type="text"/>
+                <Form.Group controlId="relmemotec" >
+                    <Form.Label >Regla memotécnicaPronunciación fonética</Form.Label>
+                    <Form.Control name="relmemotec"  type="text"/>
+                </Form.Group>
 
-                <label htmlFor="fonetic">Pronunciación fonética</label>
-                <input id="fonetic" name="fonetic" type="text"/>
-
-
+                <Form.Group controlId="fonetic" >
+                    <Form.Label >Pronunciación fonética</Form.Label>
+                    <Form.Control name="fonetic"  type="text"/>
+                </Form.Group>
 
                 <button type="submit">Guardar</button>
             </Form>
