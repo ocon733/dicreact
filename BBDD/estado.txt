@@ -1,5 +1,5 @@
-- validación formulario
-- cambios de estilo
-- mensajes de aviso
++ validación formulario
++ cambios de estilo
++ mensajes de aviso
 - recoger y mostrar mensajes del backend
 - 

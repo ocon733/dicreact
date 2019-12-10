@@ -38,8 +38,8 @@ class Listado extends React.Component{
                             <th>Ingles</th>
                             <th>Español</th>
                             <th>Frase</th>
-                            <th>Pronunciación</th>
                             <th>Nemotécnica</th>
+                            <th>Pronunciación</th>
                         </tr>
                     </thead>
                     <tbody>
