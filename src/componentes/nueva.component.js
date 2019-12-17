@@ -26,23 +26,23 @@ class Nueva extends React.Component{
         this.setState ({error: ""});
         let isvalid = true;
         for( var e =0; e < t.length; e++){
-            if ( t[e].name === "english" && t[e].value == ""){
+            if ( t[e].name === "english" && t[e].value === ""){
                 this.setState ((state) => ({error : state.error + "Falta la palabra en inglés, "}));
                 isvalid = false;
             }
-            if ( t[e].name === "fonetic" && t[e].value == ""){
+            if ( t[e].name === "fonetic" && t[e].value === ""){
                 this.setState ((state) => ({error : state.error + "Falta la pronunciación figurada, "}));
                 isvalid = false;
             }
-            if ( t[e].name === "spain" && t[e].value == ""){
+            if ( t[e].name === "spain" && t[e].value === ""){
                 this.setState ((state) => ({error : state.error + "Falta la traducción en español, "}));
                 isvalid = false;
             }
-            if ( t[e].name === "descripcion" && t[e].value == ""){
+            if ( t[e].name === "descripcion" && t[e].value === ""){
                 this.setState ((state) => ({error : state.error + "Falta la frase de uso habitual, "}));
                 isvalid = false;
             }
-            if ( t[e].name === "relmemotec" && t[e].value == ""){
+            if ( t[e].name === "relmemotec" && t[e].value === ""){
                 this.setState ((state) => ({error : state.error + "Falta la regla nemotécnica para memorizar, "}));
                 isvalid = false;
             }
@@ -65,7 +65,7 @@ class Nueva extends React.Component{
     }
 
     renderMensaje(){
-        if( this.state.error.length != 0){
+        if( this.state.error.length !== 0){
             return(<Alert variant="danger"><p>{this.state.error}</p></Alert> );
         }
     }

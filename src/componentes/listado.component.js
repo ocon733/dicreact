@@ -14,8 +14,16 @@ class Listado extends React.Component{
 
     componentDidMount(){
         fetch('http://localhost:8080/findall')
-        .then(res=>res.json())
-        .then(json => {
+        //fetch('http://localhost/diccionario/consulta.php')
+        .then(res=> res.json())
+        .then( res => {
+           var arr = [];
+           for (var x=0; x<res.length; x ++ ) {
+                arr.push( JSON.parse(res[x]));
+           }
+           return arr;
+        })
+       .then(json => {
             this.setState({
                 isLoaded : true,
                 items: json
@@ -45,12 +53,12 @@ class Listado extends React.Component{
                     <tbody>
                         {items.map(item=>(
                             <tr>
-                                <td>{item[0]}</td>
-                                <td>{item[1]}</td>
-                                <td>{item[2]}</td>
-                                <td>{item[3]}</td>
-                                <td>{item[4]}</td>
-                                <td>{item[5]}</td>
+                                <td>{item["id"]}</td>
+                                <td>{item["english"]}</td>
+                                <td>{item["spain"]}</td>
+                                <td>{item["descripcion"]}</td>
+                                <td>{item["relmemotec"]}</td>
+                                <td>{item["fonetic"]}</td>
                             </tr>
                         ))}
                     </tbody>
