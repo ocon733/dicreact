@@ -1,10 +1,7 @@
-+ validación formulario
-+ cambios de estilo
-+ mensajes de aviso
 - recoger y mostrar mensajes del backend
 - version estable en java y php
 - alta, baja y modificación en php y java
-- cambiar tabla a material
-- mejorar estilos
++ cambiar tabla a material
++ mejorar estilos
 - login de acceso para modificación alta y baja
 - 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,6 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 class Listado extends React.Component{
 
@@ -16,6 +16,10 @@ class Listado extends React.Component{
             items: [],
             isLoaded: false
         };
+    }
+
+    editar(id){
+        alert("id "+ id);
     }
 
 
@@ -49,7 +53,7 @@ class Listado extends React.Component{
                     <Table  aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>ID</TableCell>
+                            <TableCell></TableCell>
                             <TableCell >Inglés</TableCell>
                             <TableCell >Español</TableCell>
                             <TableCell >Frase</TableCell>
@@ -60,7 +64,9 @@ class Listado extends React.Component{
                   <TableBody>
                     {items.map(item=>(
                       <TableRow key={item.id}>
-                        <TableCell component="th" scope="item">{item.id}</TableCell>
+                        <TableCell component="th" scope="item">
+                            <Button variant="outlined" size="small" color="primary" onClick={()=>this.editar(item.id)}>Editar</Button>
+                        </TableCell>
                         <TableCell>{item.english}</TableCell>
                         <TableCell>{item.spain}</TableCell>
                         <TableCell>{item.descripcion}</TableCell>
