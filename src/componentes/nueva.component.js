@@ -9,14 +9,25 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
 class Nueva extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
-            error: ''           
+            error: '',
+            modificar: false          
         }
+        
     }
+    componentDidMount() {
+        if ( this.props.match !== undefined && this.props.match.params !== undefined){
+            const  id  = this.props.match.params.id;
+            console.log("id:" + id);
+            this.setState({modificar:true});
 
+        }else{
+           this.setState({modificar:false});
+        }
+    }    
     handleSubmit(event){
         event.preventDefault();
         this.validaFormulario(event.target);
@@ -70,6 +81,18 @@ class Nueva extends React.Component{
         }
     }
 
+    renderBotonera(){
+        if( this.state.modificar){
+            return (<Button varian="primary" onClick={()=>this.modificar()} >Modifiar</Button>);
+        }else{
+            return (<Button varian="primary" type="submit">Guardar</Button>);
+        }
+    }
+
+    modificar(){
+        alert ("Holi!");
+    }
+
 
     render(){
         return(
@@ -116,7 +139,7 @@ class Nueva extends React.Component{
                 </Form.Group></Col></Row>
                 {this.renderMensaje()}                
 <ButtonToolbar>
-    <Button varian="primary" type="submit">Guardar</Button>
+    {this.renderBotonera()}
 </ButtonToolbar>
               
             </Form>

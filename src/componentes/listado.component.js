@@ -6,7 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
+import Link from "@material-ui/core/Link";
 
 class Listado extends React.Component{
 
@@ -17,11 +17,6 @@ class Listado extends React.Component{
             isLoaded: false
         };
     }
-
-    editar(id){
-        alert("id "+ id);
-    }
-
 
     componentDidMount(){
         //fetch('http://localhost:8080/findall')
@@ -54,18 +49,18 @@ class Listado extends React.Component{
                     <TableHead>
                         <TableRow>
                             <TableCell></TableCell>
-                            <TableCell >Inglés</TableCell>
-                            <TableCell >Español</TableCell>
-                            <TableCell >Frase</TableCell>
-                            <TableCell >Nemotécnica</TableCell>
-                            <TableCell >Pronunciación</TableCell>
+                            <TableCell align="center" >Inglés</TableCell>
+                            <TableCell  align="center">Español</TableCell>
+                            <TableCell  align="center">Frase</TableCell>
+                            <TableCell  align="center">Nemotécnica</TableCell>
+                            <TableCell  align="center">Pronunciación</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {items.map(item=>(
                       <TableRow key={item.id}>
                         <TableCell component="th" scope="item">
-                            <Button variant="outlined" size="small" color="primary" onClick={()=>this.editar(item.id)}>Editar</Button>
+                            <Link href={"/edit:"+item.id} >Editar</Link>
                         </TableCell>
                         <TableCell>{item.english}</TableCell>
                         <TableCell>{item.spain}</TableCell>

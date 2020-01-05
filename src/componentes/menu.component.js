@@ -36,6 +36,7 @@ class Menu extends React.Component{
           <Route path="/nueva">
             <Nueva />
           </Route>
+            <Route path="/edit:id" component={Nueva} />
         </Switch>
       </div>
     </Router>

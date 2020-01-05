@@ -11,7 +11,7 @@ class Pie extends React.Component{
     render(){
         return(
             <div>
-                <p>{this.fechaHoy()}</p>
+                <p style={{textAlign:'center'}}>{this.fechaHoy()}</p>
             </div>
         );
     }
