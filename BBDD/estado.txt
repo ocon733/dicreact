@@ -1,7 +1,3 @@
-- recoger y mostrar mensajes del backend
-- version estable en java y php
-- alta, baja y modificación en php y java
-+ cambiar tabla a material
-+ mejorar estilos
-- login de acceso para modificación alta y baja
-- 
+- ficheros php de guardar, modificar y consultar por id
+- cargar la consulta por id en los campos de texto
+- variables globales para ruta php en local y servidor internet

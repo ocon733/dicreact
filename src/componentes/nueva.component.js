@@ -21,13 +21,34 @@ class Nueva extends React.Component{
     componentDidMount() {
         if ( this.props.match !== undefined && this.props.match.params !== undefined){
             const  id  = this.props.match.params.id;
-            console.log("id:" + id);
             this.setState({modificar:true});
+            this.cargarRegistro(id);
 
         }else{
            this.setState({modificar:false});
         }
     }    
+
+    cargarRegistro(id){
+        console.log("id:" + id);
+        fetch('http://localhost/diccionario/buscar.php?id='+id)
+        .then(res=> res.json())
+        .then( res => {
+           var arr = [];
+           for (var x=0; x<res.length; x ++ ) {
+                arr.push( JSON.parse(res[x]));
+           }
+           return arr;
+        })
+       .then(json => {
+            this.setState({
+                items: json
+            })
+        });
+
+
+    }
+
     handleSubmit(event){
         event.preventDefault();
         this.validaFormulario(event.target);
@@ -64,12 +85,24 @@ class Nueva extends React.Component{
             
             const data = new FormData ( t);
 
-            fetch('http://localhost:8080/create', { 
-                method: 'POST', 
-                body: data         
-            }).then(res => res)
-            .catch(error => console.error('Error:', error))
-            .then(response => console.log('Success:', response));
+            if ( this.state.modificar){
+                fetch('http://localhost/diccionario/modificar.php', {
+                //fetch('http://localhost:8080/create', { 
+                    method: 'POST', 
+                    body: data         
+                }).then(res => res)
+                .catch(error => console.error('Error:', error))
+                .then(response => console.log('Success:', response));
+            }else{
+                fetch('http://localhost/diccionario/guardar.php', {
+                //fetch('http://localhost:8080/create', { 
+                    method: 'POST', 
+                    body: data         
+                }).then(res => res)
+                .catch(error => console.error('Error:', error))
+                .then(response => console.log('Success:', response));
+            }
+
 
         }
         
@@ -83,7 +116,7 @@ class Nueva extends React.Component{
 
     renderBotonera(){
         if( this.state.modificar){
-            return (<Button varian="primary" onClick={()=>this.modificar()} >Modifiar</Button>);
+            return (<Button varian="primary" onClick={()=>this.modificar()} >Modificar</Button>);
         }else{
             return (<Button varian="primary" type="submit">Guardar</Button>);
         }
