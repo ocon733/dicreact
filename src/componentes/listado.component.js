@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Link from "@material-ui/core/Link";
+import * as Constantes from '../Constantes';
 
 class Listado extends React.Component{
 
@@ -19,8 +20,7 @@ class Listado extends React.Component{
     }
 
     componentDidMount(){
-        fetch('http://localhost:8080/findall')
-        //fetch('http://localhost/diccionario/consulta.php')
+        fetch(Constantes.SERVIDOR + "consulta.php")
         .then(res=> res.json())
         .then( res => {
            var arr = [];

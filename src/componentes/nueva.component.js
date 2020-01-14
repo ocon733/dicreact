@@ -7,12 +7,18 @@ import Row from 'react-bootstrap/Row';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import * as Constantes from '../Constantes';
 
 class Nueva extends React.Component{
     constructor(props){
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
+            english:'',
+            spain:'',
+            descripcion:'',
+            relmemotec:'',
+            fonetic:'',
             error: '',
             modificar: false          
         }
@@ -24,26 +30,26 @@ class Nueva extends React.Component{
             this.setState({modificar:true});
             this.cargarRegistro(id);
 
-        }else{
+        }else{           
            this.setState({modificar:false});
         }
     }    
 
     cargarRegistro(id){
         console.log("id:" + id);
-        fetch('http://localhost/diccionario/buscar.php?id='+id)
+        fetch(Constantes.SERVIDOR + 'buscar.php?id='+id)
         .then(res=> res.json())
         .then( res => {
-           var arr = [];
+           let word = undefined;
            for (var x=0; x<res.length; x ++ ) {
-                arr.push( JSON.parse(res[x]));
+                //arr.push( JSON.parse(res[x]));
+                word = JSON.parse(res[x]);
            }
-           return arr;
-        })
-       .then(json => {
-            this.setState({
-                items: json
-            })
+           this.setState({english:word.english,
+                        spain:word.spain,
+                        descripcion:word.descripcion,
+                        relmemotec:word.relmemotec,
+                        fonetic:word.fonetic});
         });
 
 
@@ -86,16 +92,14 @@ class Nueva extends React.Component{
             const data = new FormData ( t);
 
             if ( this.state.modificar){
-                fetch('http://localhost/diccionario/modificar.php', {
-                //fetch('http://localhost:8080/create', { 
+                fetch(Constantes.SERVIDOR + 'modificar.php', {
                     method: 'POST', 
                     body: data         
                 }).then(res => res)
                 .catch(error => console.error('Error:', error))
                 .then(response => console.log('Success:', response));
             }else{
-                fetch('http://localhost/diccionario/guardar.php', {
-                //fetch('http://localhost:8080/create', { 
+                fetch(Constantes.SERVIDOR + 'guardar.php', {
                     method: 'POST', 
                     body: data         
                 }).then(res => res)
@@ -116,7 +120,8 @@ class Nueva extends React.Component{
 
     renderBotonera(){
         if( this.state.modificar){
-            return (<Button varian="primary" onClick={()=>this.modificar()} >Modificar</Button>);
+            //return (<Button varian="primary" onClick={()=>this.modificar()} >Modificar</Button>);
+            return (<Button varian="primary" type="submit">Modificar</Button>);
         }else{
             return (<Button varian="primary" type="submit">Guardar</Button>);
         }
@@ -139,14 +144,14 @@ class Nueva extends React.Component{
                 <Col>  
                 <Form.Group controlId="english" >
                     <Form.Label >Inglés</Form.Label>
-                    <Form.Control name="english"  type="text"/>
+                    <Form.Control name="english"  type="text" value={this.state.english}/>
                 </Form.Group>
                 </Col>
 
                 <Col> 
                 <Form.Group controlId="fonetic" >
                     <Form.Label >Pronunciación fonética</Form.Label>
-                    <Form.Control name="fonetic"  type="text"/>
+                    <Form.Control name="fonetic"  type="text" value={this.state.fonetic}/>
                 </Form.Group>
                 </Col>
                 </Row>
@@ -154,21 +159,21 @@ class Nueva extends React.Component{
                 <Row><Col>
                 <Form.Group controlId="spain" >
                     <Form.Label >Español</Form.Label>
-                    <Form.Control name="spain"  type="text"/>
+                    <Form.Control name="spain"  type="text" value={this.state.spain}/>
                 </Form.Group>
                 </Col>
                 </Row>
 
                 <Row><Col><Form.Group controlId="descripcion" >
                     <Form.Label >Uso en frase en inglés</Form.Label>
-                    <Form.Control name="descripcion"  type="text"/>
+                    <Form.Control name="descripcion"  type="text" value={this.state.descripcion}/>
                 </Form.Group>
                 </Col>
                 </Row>
 
                 <Row><Col><Form.Group controlId="relmemotec" >
                     <Form.Label >Regla memotécnica</Form.Label>
-                    <Form.Control name="relmemotec"  type="text"/>
+                    <Form.Control name="relmemotec"  type="text" value={this.state.relmemotec}/>
                 </Form.Group></Col></Row>
                 {this.renderMensaje()}                
 <ButtonToolbar>
