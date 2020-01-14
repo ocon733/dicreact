@@ -19,8 +19,8 @@ class Listado extends React.Component{
     }
 
     componentDidMount(){
-        //fetch('http://localhost:8080/findall')
-        fetch('http://localhost/diccionario/consulta.php')
+        fetch('http://localhost:8080/findall')
+        //fetch('http://localhost/diccionario/consulta.php')
         .then(res=> res.json())
         .then( res => {
            var arr = [];
