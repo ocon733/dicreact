@@ -7,3 +7,6 @@
 - 
 
 https://material-ui.com/es/getting-started/installation/
+- ficheros php de guardar, modificar y consultar por id
+- cargar la consulta por id en los campos de texto
+- variables globales para ruta php en local y servidor internet
