@@ -144,14 +144,14 @@ class Nueva extends React.Component{
                 <Col>  
                 <Form.Group controlId="english" >
                     <Form.Label >Inglés</Form.Label>
-                    <Form.Control name="english"  type="text" value={this.state.english}/>
+                    <Form.Control name="english"  type="text" defaultValue={this.state.english}/>
                 </Form.Group>
                 </Col>
 
                 <Col> 
                 <Form.Group controlId="fonetic" >
                     <Form.Label >Pronunciación fonética</Form.Label>
-                    <Form.Control name="fonetic"  type="text" value={this.state.fonetic}/>
+                    <Form.Control name="fonetic"  type="text" defaultValue={this.state.fonetic}/>
                 </Form.Group>
                 </Col>
                 </Row>
@@ -159,21 +159,21 @@ class Nueva extends React.Component{
                 <Row><Col>
                 <Form.Group controlId="spain" >
                     <Form.Label >Español</Form.Label>
-                    <Form.Control name="spain"  type="text" value={this.state.spain}/>
+                    <Form.Control name="spain"  type="text" defaultValue={this.state.spain}/>
                 </Form.Group>
                 </Col>
                 </Row>
 
                 <Row><Col><Form.Group controlId="descripcion" >
                     <Form.Label >Uso en frase en inglés</Form.Label>
-                    <Form.Control name="descripcion"  type="text" value={this.state.descripcion}/>
+                    <Form.Control name="descripcion"  type="text" defaultValue={this.state.descripcion}/>
                 </Form.Group>
                 </Col>
                 </Row>
 
                 <Row><Col><Form.Group controlId="relmemotec" >
                     <Form.Label >Regla memotécnica</Form.Label>
-                    <Form.Control name="relmemotec"  type="text" value={this.state.relmemotec}/>
+                    <Form.Control name="relmemotec"  type="text" defaultValue={this.state.relmemotec}/>
                 </Form.Group></Col></Row>
                 {this.renderMensaje()}                
 <ButtonToolbar>

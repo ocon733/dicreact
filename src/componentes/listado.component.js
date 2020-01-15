@@ -60,7 +60,7 @@ class Listado extends React.Component{
                     {items.map(item=>(
                       <TableRow key={item.id}>
                         <TableCell component="th" scope="item">
-                            <Link href={"/edit:"+item.id} >Editar</Link>
+                            <Link href={"/edit"+item.id} >Editar</Link>
                         </TableCell>
                         <TableCell>{item.english}</TableCell>
                         <TableCell>{item.spain}</TableCell>
