@@ -49,7 +49,9 @@ class Nueva extends React.Component{
                         spain:word.spain,
                         descripcion:word.descripcion,
                         relmemotec:word.relmemotec,
-                        fonetic:word.fonetic});
+                        fonetic:word.fonetic,
+                        id:word.id
+                    });
         });
 
 
@@ -175,6 +177,8 @@ class Nueva extends React.Component{
                     <Form.Label >Regla memotécnica</Form.Label>
                     <Form.Control name="relmemotec"  type="text" defaultValue={this.state.relmemotec}/>
                 </Form.Group></Col></Row>
+                <Form.Control name="id" type="hidden" defaultValue={this.state.id} />
+
                 {this.renderMensaje()}                
 <ButtonToolbar>
     {this.renderBotonera()}
