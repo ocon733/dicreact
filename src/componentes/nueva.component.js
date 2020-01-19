@@ -25,7 +25,8 @@ class Nueva extends React.Component{
         
     }
     componentDidMount() {
-        if ( this.props.match !== undefined && this.props.match.params !== undefined){
+        if ( this.props.match !== undefined && this.props.match.params !== undefined &&
+            this.props.match.params.id !== undefined){
             const  id  = this.props.match.params.id;
             this.setState({modificar:true});
             this.cargarRegistro(id);
@@ -99,14 +100,14 @@ class Nueva extends React.Component{
                     body: data         
                 }).then(res => res)
                 .catch(error => console.error('Error:', error))
-                .then(response => console.log('Success:', response));
+                .then(response => alert('Modificación realizada '));
             }else{
                 fetch(Constantes.SERVIDOR + 'guardar.php', {
                     method: 'POST', 
                     body: data         
                 }).then(res => res)
                 .catch(error => console.error('Error:', error))
-                .then(response => console.log('Success:', response));
+                .then(response => alert('Guardado correctamente '));
             }
 
 
