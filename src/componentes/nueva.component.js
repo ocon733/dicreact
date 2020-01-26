@@ -20,7 +20,8 @@ class Nueva extends React.Component{
             relmemotec:'',
             fonetic:'',
             error: '',
-            modificar: false          
+            modificar: false,
+            aprendido: false          
         }
         
     }
@@ -37,7 +38,6 @@ class Nueva extends React.Component{
     }    
 
     cargarRegistro(id){
-        console.log("id:" + id);
         fetch(Constantes.SERVIDOR + 'buscar.php?id='+id)
         .then(res=> res.json())
         .then( res => {
@@ -46,22 +46,31 @@ class Nueva extends React.Component{
                 //arr.push( JSON.parse(res[x]));
                 word = JSON.parse(res[x]);
            }
+
+           // eslint-disable-next-line
+           let boolAprendido = word.aprendido == 1 ? true : false;
+           
+
            this.setState({english:word.english,
                         spain:word.spain,
                         descripcion:word.descripcion,
                         relmemotec:word.relmemotec,
                         fonetic:word.fonetic,
-                        id:word.id
+                        id:word.id,
+                        aprendido: boolAprendido
                     });
         });
-
 
     }
 
     handleSubmit(event){
         event.preventDefault();
         this.validaFormulario(event.target);
-}
+    }
+
+    handleChecked = (event) => {
+        this.setState({aprendido : !this.state.aprendido});
+    }
 
     validaFormulario(t){
         this.setState ({error: ""});
@@ -123,15 +132,10 @@ class Nueva extends React.Component{
 
     renderBotonera(){
         if( this.state.modificar){
-            //return (<Button varian="primary" onClick={()=>this.modificar()} >Modificar</Button>);
             return (<Button varian="primary" type="submit">Modificar</Button>);
         }else{
             return (<Button varian="primary" type="submit">Guardar</Button>);
         }
-    }
-
-    modificar(){
-        alert ("Holi!");
     }
 
 
@@ -165,6 +169,7 @@ class Nueva extends React.Component{
                     <Form.Control name="spain"  type="text" defaultValue={this.state.spain}/>
                 </Form.Group>
                 </Col>
+                
                 </Row>
 
                 <Row><Col><Form.Group controlId="descripcion" >
@@ -178,6 +183,16 @@ class Nueva extends React.Component{
                     <Form.Label >Regla memotécnica</Form.Label>
                     <Form.Control name="relmemotec"  type="text" defaultValue={this.state.relmemotec}/>
                 </Form.Group></Col></Row>
+                <Row>
+                <Col>
+                <Form.Group controlId="aprendido" >
+                    <Form.Check name="aprendido"  type="checkbox" label ="Aprendido" onChange={this.handleChecked} checked={this.state.aprendido} />
+                </Form.Group></Col>
+                </Row>
+             
+
+
+
                 <Form.Control name="id" type="hidden" defaultValue={this.state.id} />
 
                 {this.renderMensaje()}                

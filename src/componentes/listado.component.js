@@ -36,6 +36,16 @@ class Listado extends React.Component{
             })
         });
     }
+
+    estiloAprendido = ( option) => {
+       if ( option === '1'){
+           return{
+              backgroundColor : '#376138',
+              color: '#CCCCCC'
+            }
+       }
+    }
+
     render(){
 
         var { isLoaded, items} = this.state;
@@ -58,15 +68,15 @@ class Listado extends React.Component{
                   </TableHead>
                   <TableBody>
                     {items.map(item=>(
-                      <TableRow key={item.id}>
+                      <TableRow key={item.id} >
                         <TableCell component="th" scope="item">
-                            <Link href={"/edit"+item.id} >Editar</Link>
+                    <Link href={"/edit"+item.id} title="editar">{item.id}</Link>
                         </TableCell>
-                        <TableCell>{item.english}</TableCell>
-                        <TableCell>{item.spain}</TableCell>
-                        <TableCell>{item.descripcion}</TableCell>
-                        <TableCell>{item.relmemotec}</TableCell>
-                        <TableCell>{item.fonetic}</TableCell>
+                        <TableCell style={this.estiloAprendido(item.aprendido)}>{item.english}</TableCell>
+                        <TableCell style={this.estiloAprendido(item.aprendido)}>{item.spain}</TableCell>
+                        <TableCell style={this.estiloAprendido(item.aprendido)}>{item.descripcion}</TableCell>
+                        <TableCell style={this.estiloAprendido(item.aprendido)}>{item.relmemotec}</TableCell>
+                        <TableCell style={this.estiloAprendido(item.aprendido)}>{item.fonetic}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

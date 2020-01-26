@@ -5,8 +5,11 @@ CREATE TABLE IF NOT EXISTS dic_diccionario(
    descripcion text,
    relmemotec text,
    fonetic varchar(200) not null,
+   aprendido BIT,
    primary key (id)
 )ENGINE=InnoDB;
+
+-- ALTER TABLE dic_diccionario ADD COLUMN aprendido BIT;
 
 
 
