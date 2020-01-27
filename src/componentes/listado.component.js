@@ -40,7 +40,7 @@ class Listado extends React.Component{
     estiloAprendido = ( option) => {
        if ( option === '1'){
            return{
-              backgroundColor : '#376138',
+              backgroundColor : '#9e98b5',
               color: '#CCCCCC'
             }
        }

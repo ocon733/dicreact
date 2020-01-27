@@ -3,12 +3,13 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pie from './componentes/pie.component.js';
 import Menu from './componentes/menu.component.js';
+import Cabecera from './componentes/cabecera.component';
 
 function App() {
   return (
     <div className="App">
       <header>
-        <h3>Vocabulario Inglés-Español</h3>
+        <Cabecera titulo="VOCABULARIO INGLÉS-ESPAÑOL" ></Cabecera>
       </header>
     
         <Menu></Menu>        

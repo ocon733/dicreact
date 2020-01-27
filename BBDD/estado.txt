@@ -1,12 +1,14 @@
 - recoger y mostrar mensajes del backend
-- version estable en java y php
-- alta, baja y modificación en php y java
-+ cambiar tabla a material
-+ mejorar estilos
+- mejorar estilos
 - login de acceso para modificación alta y baja
-- 
+
 
 https://material-ui.com/es/getting-started/installation/
 - ficheros php de guardar, modificar y consultar por id
-- cargar la consulta por id en los campos de texto
-- variables globales para ruta php en local y servidor internet
++ cargar la consulta por id en los campos de texto
++ variables globales para ruta php en local y servidor internet
+
+- filtrar por campo aprendido
+- componente cabecera con parametros pasados desde el padre
+- icono en vez de numero de id
+
