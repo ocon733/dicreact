@@ -8,6 +8,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Link from "@material-ui/core/Link";
 import * as Constantes from '../Constantes';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
 
 class Listado extends React.Component{
 
@@ -15,7 +19,8 @@ class Listado extends React.Component{
         super(props);
         this.state = {
             items: [],
-            isLoaded: false
+            isLoaded: false,
+            checkedFiltro:true
         };
     }
 
@@ -46,6 +51,20 @@ class Listado extends React.Component{
        }
     }
 
+    renderImagenAprendido(id, aprendido){
+        let rutaimg = "";
+        if( aprendido === '1'){
+            rutaimg = "pencil_a.png";
+        }else{
+            rutaimg = "pencil_b.png";
+        }
+        return(<Link href={"/edit"+id} title="editar"><img src={rutaimg} alt="editar" /></Link> );
+    }
+
+    handlerChangeFiltro = (event) => {
+        this.setState({checkedFiltro : !this.state.checkedFiltro});
+    }
+
     render(){
 
         var { isLoaded, items} = this.state;
@@ -54,6 +73,14 @@ class Listado extends React.Component{
             return <div>Cargando datos ...</div>;
         }else{
             return (
+                <div>
+                <FormGroup row>
+                    <FormControlLabel control= {
+                            <Switch checked={this.state.checkedFiltro} onChange={this.handlerChangeFiltro} color="primary"/>
+                        }
+                    label="Ocultar aprendidos" />    
+                </FormGroup>
+
                 <TableContainer component={Paper}>
                     <Table  aria-label="simple table">
                     <TableHead>
@@ -67,10 +94,10 @@ class Listado extends React.Component{
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {items.map(item=>(
+                    {items.filter( (item) => (this.state.checkedFiltro && !item.aprendido ) || (!this.state.checkedFiltro) ).map(item=>(
                       <TableRow key={item.id} >
                         <TableCell component="th" scope="item">
-                    <Link href={"/edit"+item.id} title="editar">{item.id}</Link>
+                        {this.renderImagenAprendido(item.id,item.aprendido)}
                         </TableCell>
                         <TableCell style={this.estiloAprendido(item.aprendido)}>{item.english}</TableCell>
                         <TableCell style={this.estiloAprendido(item.aprendido)}>{item.spain}</TableCell>
@@ -82,6 +109,7 @@ class Listado extends React.Component{
                   </TableBody>
                 </Table>
               </TableContainer>
+              </div>
         )};
 
 
