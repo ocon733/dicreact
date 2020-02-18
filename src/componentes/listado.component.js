@@ -16,7 +16,6 @@ import { findAll} from '../redux/actions/findAll';
 
 
 
-
 class Listado extends React.Component{
 
     constructor(props){
@@ -69,8 +68,9 @@ class Listado extends React.Component{
 
     
     handlerChangeFiltro = () => {
-       let obj =  this.props.findAll(!this.state.filtrar);
-        this.setState({filtrar : obj.payload});
+
+console.log("estado:" + this.state.filtrar);
+       this.props.findAll(this.props.filtrar);
     }
 
 
@@ -88,7 +88,7 @@ class Listado extends React.Component{
                 <div>
                 <FormGroup row>
                     <FormControlLabel control= {
-                            <Switch checked={this.state.filtrar} onChange={ () => this.handlerChangeFiltro()} color="primary"/>
+                            <Switch checked={this.props.filtrar} onChange={ () => this.handlerChangeFiltro()} color="primary"/>
                         }
                     label="Ocultar aprendidos" />    
                 </FormGroup>
@@ -106,7 +106,7 @@ class Listado extends React.Component{
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {items.filter( (item) => (this.state.filtrar && !item.aprendido ) || (!this.state.filtrar) ).map(item=>(
+                    {items.filter( (item) => (this.props.filtrar && !item.aprendido ) || (!this.props.filtrar) ).map(item=>(
                       <TableRow key={item.id} >
                         <TableCell component="th" scope="item">
                         {this.renderImagenAprendido(item.id,item.aprendido)}
@@ -128,10 +128,10 @@ class Listado extends React.Component{
     }
 }
 
-const mapStateToProps = (listado) => {
+const mapStateToProps = (state) => {
     
     return {
-        filtrar:listado.filtrar
+        filtrar: state.listado.filtrar
      }
 }
 
@@ -139,9 +139,6 @@ const mapStateToProps = (listado) => {
 const mapDispatchToProps = {
     findAll,
 };
-
-
-
 
 
 export default connect (mapStateToProps, mapDispatchToProps)(Listado);
