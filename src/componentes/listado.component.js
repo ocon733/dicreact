@@ -11,6 +11,10 @@ import * as Constantes from '../Constantes';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import { connect } from 'react-redux';
+import { findAll} from '../redux/actions/findAll';
+
+
 
 
 class Listado extends React.Component{
@@ -20,11 +24,13 @@ class Listado extends React.Component{
         this.state = {
             items: [],
             isLoaded: false,
-            checkedFiltro:true
+            filtrar: true
         };
     }
 
+
     componentDidMount(){
+
         fetch(Constantes.SERVIDOR + "consulta.php")
         .then(res=> res.json())
         .then( res => {
@@ -61,9 +67,15 @@ class Listado extends React.Component{
         return(<Link href={"/edit"+id} title="editar"><img src={rutaimg} alt="editar" /></Link> );
     }
 
-    handlerChangeFiltro = (event) => {
-        this.setState({checkedFiltro : !this.state.checkedFiltro});
+    
+    handlerChangeFiltro = () => {
+       let obj =  this.props.findAll(!this.state.filtrar);
+        this.setState({filtrar : obj.payload});
     }
+
+
+    
+
 
     render(){
 
@@ -76,7 +88,7 @@ class Listado extends React.Component{
                 <div>
                 <FormGroup row>
                     <FormControlLabel control= {
-                            <Switch checked={this.state.checkedFiltro} onChange={this.handlerChangeFiltro} color="primary"/>
+                            <Switch checked={this.state.filtrar} onChange={ () => this.handlerChangeFiltro()} color="primary"/>
                         }
                     label="Ocultar aprendidos" />    
                 </FormGroup>
@@ -94,7 +106,7 @@ class Listado extends React.Component{
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {items.filter( (item) => (this.state.checkedFiltro && !item.aprendido ) || (!this.state.checkedFiltro) ).map(item=>(
+                    {items.filter( (item) => (this.state.filtrar && !item.aprendido ) || (!this.state.filtrar) ).map(item=>(
                       <TableRow key={item.id} >
                         <TableCell component="th" scope="item">
                         {this.renderImagenAprendido(item.id,item.aprendido)}
@@ -116,5 +128,20 @@ class Listado extends React.Component{
     }
 }
 
-export default Listado;
+const mapStateToProps = (listado) => {
+    
+    return {
+        filtrar:listado.filtrar
+     }
+}
 
+
+const mapDispatchToProps = {
+    findAll,
+};
+
+
+
+
+
+export default connect (mapStateToProps, mapDispatchToProps)(Listado);
