@@ -1,5 +1,5 @@
 
-const initialtState = {filtrar: true};
+const initialtState = {filtrar: false};
 
 function listado ( state = initialtState, action) {
 

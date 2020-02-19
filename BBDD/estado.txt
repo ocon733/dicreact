@@ -1,14 +1,7 @@
-- recoger y mostrar mensajes del backend
-- mejorar estilos
-- login de acceso para modificación alta y baja
-
-
-https://material-ui.com/es/getting-started/installation/
-- ficheros php de guardar, modificar y consultar por id
-+ cargar la consulta por id en los campos de texto
-+ variables globales para ruta php en local y servidor internet
-
-- filtrar por campo aprendido
-- componente cabecera con parametros pasados desde el padre
-- icono en vez de numero de id
-
+- recoger respuesta y avisar al usuario de error
++ cambiar el color de los aprendidos
++ sustituir el interruptor por tres botones ( cargar aprendidos, cargar no aprendidos, cargar todos)
+- consulta limitada a 25 palabras con botón más >> si hay disponibles
++ opcion modo repaso para ocultar respuestas
+- sustituir todo el state por el store de redux
++ corregir error en el alta de palabras ( no filtra bien por aprendidos)

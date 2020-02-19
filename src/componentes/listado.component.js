@@ -6,6 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import Link from "@material-ui/core/Link";
 import * as Constantes from '../Constantes';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -13,6 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { connect } from 'react-redux';
 import { findAll} from '../redux/actions/findAll';
+import { ButtonGroup } from '@material-ui/core';
 
 
 
@@ -22,15 +24,32 @@ class Listado extends React.Component{
         super(props);
         this.state = {
             items: [],
-            isLoaded: false,
-            filtrar: true
+            isLoaded: false
         };
     }
 
 
     componentDidMount(){
+        fetch(Constantes.SERVIDOR + "consulta.php?opcion=t")
+                .then(res=> res.json())
+                .then( res => {
+                var arr = [];
+                for (var x=0; x<res.length; x ++ ) {
+                        arr.push( JSON.parse(res[x]));
+                }
+                return arr;
+                })
+            .then(json => {
+                    this.setState({
+                        isLoaded : true,
+                        items: json
+                    })
+                });
+    }
 
-        fetch(Constantes.SERVIDOR + "consulta.php")
+
+    consultar (opcion){
+        fetch(Constantes.SERVIDOR + "consulta.php?opcion=" + opcion)
         .then(res=> res.json())
         .then( res => {
            var arr = [];
@@ -45,13 +64,22 @@ class Listado extends React.Component{
                 items: json
             })
         });
+
     }
+    
+
 
     estiloAprendido = ( option) => {
-       if ( option === '1'){
+       if ( this.props.filtrar){
            return{
-              backgroundColor : '#9e98b5',
-              color: '#CCCCCC'
+            backgroundColor : '#CCCCCC',
+            color: '#CCCCCC' 
+           }
+       }
+        else if ( option === '1'){
+           return{
+              backgroundColor : '#623296',
+              color: '#FFFFFF'
             }
        }
     }
@@ -66,10 +94,10 @@ class Listado extends React.Component{
         return(<Link href={"/edit"+id} title="editar"><img src={rutaimg} alt="editar" /></Link> );
     }
 
+
+
     
     handlerChangeFiltro = () => {
-
-console.log("estado:" + this.state.filtrar);
        this.props.findAll(this.props.filtrar);
     }
 
@@ -87,10 +115,17 @@ console.log("estado:" + this.state.filtrar);
             return (
                 <div>
                 <FormGroup row>
-                    <FormControlLabel control= {
+                 <Paper elevation={3} className="botoneraFiltro">
+                 <FormControlLabel control= {
                             <Switch checked={this.props.filtrar} onChange={ () => this.handlerChangeFiltro()} color="primary"/>
                         }
-                    label="Ocultar aprendidos" />    
+                    label="Modo repaso" />    
+                    <ButtonGroup color="primary" aria-label="contained primary button group">
+                        <Button onClick={ () => this.consultar('n') }>Mostrar no aprendidos</Button>
+                        <Button  onClick={ () => this.consultar('a') }>Mostrar aprendidos</Button>
+                        <Button  onClick={ () => this.consultar('t') }>Mostrar todo</Button>
+                     </ButtonGroup>    
+                </Paper>
                 </FormGroup>
 
                 <TableContainer component={Paper}>
@@ -106,12 +141,12 @@ console.log("estado:" + this.state.filtrar);
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {items.filter( (item) => (this.props.filtrar && !item.aprendido ) || (!this.props.filtrar) ).map(item=>(
+                    {items.map(item=>(
                       <TableRow key={item.id} >
                         <TableCell component="th" scope="item">
                         {this.renderImagenAprendido(item.id,item.aprendido)}
                         </TableCell>
-                        <TableCell style={this.estiloAprendido(item.aprendido)}>{item.english}</TableCell>
+                        <TableCell >{item.english}</TableCell>
                         <TableCell style={this.estiloAprendido(item.aprendido)}>{item.spain}</TableCell>
                         <TableCell style={this.estiloAprendido(item.aprendido)}>{item.descripcion}</TableCell>
                         <TableCell style={this.estiloAprendido(item.aprendido)}>{item.relmemotec}</TableCell>
@@ -139,6 +174,5 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     findAll,
 };
-
 
 export default connect (mapStateToProps, mapDispatchToProps)(Listado);
