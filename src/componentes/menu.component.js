@@ -1,17 +1,13 @@
 import React from 'react';
-import Listado from './listado.component.js';
+import ListadoContenedor from './listadocontenedor.component.js';
 import Nueva from './nueva.component.js';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route    
-  } from "react-router-dom";
 class Menu extends React.Component{
     render(){
         return (
@@ -31,7 +27,7 @@ class Menu extends React.Component{
        </Container>
         <Switch>
           <Route path="/listado">
-            <Listado />
+            <ListadoContenedor />
           </Route>
           <Route path="/nueva">
             <Nueva />
