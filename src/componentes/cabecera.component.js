@@ -12,7 +12,7 @@ class Cabecera extends React.Component{
     render(){
         return(
             <div className="caja">
-    <h4>{this.props.titulo}</h4>
+    <h4 className="cabecera_titulo">{this.props.titulo}</h4>
             </div>
         );
     }   

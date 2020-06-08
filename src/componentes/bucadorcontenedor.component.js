@@ -1,19 +1,17 @@
 import { connect } from 'react-redux';
-import { findAll} from '../redux/actions/findAll';
 import { buscarPalabra} from '../redux/actions/buscarPalabra';
 import { cambiarIdioma} from '../redux/actions/cambiarIdioma';
-import Listado from './listado.component';
+import Buscador from './buscador.component';
 
 const mapStateToProps = (store) => {
     
     return {
-        filtrar: store.listado.filtrar,
         palabra: store.listado.palabra,
         idioma: store.listado.idioma
      }
 }
 const mapDispatchToProps = {
-    findAll,buscarPalabra,cambiarIdioma
+    buscarPalabra ,cambiarIdioma
 };
 
 const createConnection = connect (
@@ -21,5 +19,5 @@ const createConnection = connect (
     mapDispatchToProps
 )
 
-const ListadoContenedor = createConnection (Listado);
-export default ListadoContenedor;
+const BuscadorContenedor = createConnection (Buscador);
+export default BuscadorContenedor;

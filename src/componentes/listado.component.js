@@ -11,7 +11,9 @@ import * as Constantes from '../Constantes';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-
+import Button from '@material-ui/core/Button';
+import BuscadorContenedor from './bucadorcontenedor.component';
+import Grid from '@material-ui/core/Grid';
 
 
 export default class Listado extends React.Component{
@@ -75,8 +77,29 @@ export default class Listado extends React.Component{
 
     
     handlerChangeFiltro = () => {
+
        this.props.findAll(this.props.filtrar);
     }
+
+    buscarPalabra = () => {
+        
+        fetch(Constantes.SERVIDOR + "consultafiltro.php?palabra=" + this.props.palabra + "&idioma=" + this.props.idioma)
+        .then(res=> res.json())
+        .then( res => {
+        var arr = [];
+        for (var x=0; x<res.length; x ++ ) {
+                arr.push( JSON.parse(res[x]));
+        }
+        return arr;
+        })
+    .then(json => {
+            this.setState({
+                isLoaded : true,
+                items: json
+            })
+        });
+}
+    
 
 
     
@@ -93,10 +116,23 @@ export default class Listado extends React.Component{
                 <div>
                 <FormGroup row>
                  <Paper elevation={3} className="botoneraFiltro">
-                 <FormControlLabel control= {
-                            <Switch checked={this.props.filtrar} onChange={ () => this.handlerChangeFiltro()} color="primary"/>
-                        }
-                    label="Modo repaso" />   
+                    <Grid container spacing={3}>
+                        <Grid item xs={3}>
+                        <Button variant="contained" color="primary" onClick={this.buscarPalabra} >Buscar</Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <BuscadorContenedor/>    
+                        </Grid>
+                        <Grid item xs={3}>
+                        <FormControlLabel control= {
+                                <Switch checked={this.props.filtrar} onChange={ () => this.handlerChangeFiltro()} color="primary"/>
+                            }
+                        label="Modo repaso" />
+                        </Grid>
+                    </Grid>
+                    
+                       
+                    
                 </Paper>
                 </FormGroup>
 
