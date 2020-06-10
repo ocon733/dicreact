@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import './buscador.css';
 
 export default class Buscador extends Component {
     state = {
@@ -25,7 +26,7 @@ export default class Buscador extends Component {
     render() {
         return (
             <div className="buscador_caja">
-                <input type="text" size="40" id="word" name="word" value={this.state.word}
+                <input className="buscador_texto" type="text"  id="word" name="word" value={this.state.word}
                 onChange={this.handlerBuscador}></input>
 
         <button onClick={this.handlerButton}>{this.state.idioma}</button>

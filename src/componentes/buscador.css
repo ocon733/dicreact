@@ -1,3 +1,7 @@
 .buscador_caja {
     display: inline;
 }
+
+.buscador_texto{
+    width: 80%;
+}
