@@ -29,9 +29,9 @@ const Buscador = (props) => {
         dispatch(cambiarIdiomaAction(idioma));
     }
 
-
+ 
     const cambioFiltro = (e) => {
-        if( e.target.value.length >= 2) {
+        if( e.target.value.length >= 2 || e.target.value.length === 0) {
             dispatch(buscarConFiltroAction({palabra:e.target.value,idioma:idioma}));
         }
         

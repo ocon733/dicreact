@@ -47,8 +47,8 @@ class Nueva extends React.Component{
                 word = JSON.parse(res[x]);
            }
 
-           // eslint-disable-next-line
-           let boolAprendido = word.aprendido == 1 ? true : false;
+           
+           let boolAprendido = word.aprendido === 1 ? true : false;
            
 
            this.setState({english:word.english,

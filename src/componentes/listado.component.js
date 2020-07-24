@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Link from "@material-ui/core/Link";
 import Buscador from './buscador.component';
 import { buscarConFiltroAction } from '../actions/listadoAction';
+import './listado.css';
 
 const Listado = () => {
 
@@ -78,11 +79,11 @@ const Listado = () => {
                               <TableCell component="th" scope="item">
                               {renderImagenAprendido(item.id,item.aprendido)}
                               </TableCell>
-                              <TableCell >{item.english}</TableCell>
+                              <TableCell ><strong>{item.english}</strong></TableCell>
                               <TableCell style={estiloRepaso()}>{item.spain}</TableCell>
-                              <TableCell style={estiloRepaso()}>{item.descripcion}</TableCell>
-                              <TableCell >{item.relmemotec}</TableCell>
-                              <TableCell >{item.fonetic}</TableCell>
+                              <TableCell className="mini gris" >{item.descripcion}</TableCell>
+                              <TableCell className="mini gris" >{item.relmemotec}</TableCell>
+                              <TableCell className="cursiva gris">{item.fonetic}</TableCell>
                             </TableRow>
                         ))
                     }

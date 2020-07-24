@@ -4,7 +4,7 @@ import { CAMBIAR_IDIOMA, CAMBIAR_FILTRO, CAMBIAR_MODO_REPASO} from '../types';
 
 //cada reducer tiene su propio state
 const initialState = {
-    idioma: "eng",
+    idioma: "ing",
     filtro: "",
     repaso: false
 }
@@ -33,10 +33,10 @@ export default function (state = initialState, action) {
 
 const cambioIdioma = (idioma) => {
     
-    if ( idioma === "eng"){ 
+    if ( idioma === "ing"){ 
         return "esp"
      } else {
-        return "eng"
+        return "ing"
      }
 }
 
