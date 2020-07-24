@@ -142,32 +142,33 @@ class Nueva extends React.Component{
     render(){
         return(
             <Container>
+              <Card>
+                <Card.Body>
+                  <Card.Title><h3>Nueva entrada diccionario</h3></Card.Title>
                 
-            <Card><Card.Body>
-                <Card.Title><h3>Nueva entrada diccionario</h3></Card.Title>
-                
-            <Form onSubmit={this.handleSubmit}>
-            <Row>
-                <Col>  
-                <Form.Group controlId="english" >
-                    <Form.Label >Inglés</Form.Label>
-                    <Form.Control name="english"  type="text" defaultValue={this.state.english}/>
-                </Form.Group>
-                </Col>
+                <Form onSubmit={this.handleSubmit}>
+                    <Row>
+                        <Col>  
+                            <Form.Group controlId="english" >
+                                <Form.Label >Inglés</Form.Label>
+                                <Form.Control name="english"  type="text" defaultValue={this.state.english}/>
+                            </Form.Group>
+                        </Col>
 
-                <Col> 
-                <Form.Group controlId="fonetic" >
-                    <Form.Label >Pronunciación fonética</Form.Label>
-                    <Form.Control name="fonetic"  type="text" defaultValue={this.state.fonetic}/>
-                </Form.Group>
-                </Col>
-                </Row>
+                        <Col> 
+                            <Form.Group controlId="fonetic" >
+                                <Form.Label >Pronunciación fonética</Form.Label>
+                                <Form.Control name="fonetic"  type="text" defaultValue={this.state.fonetic}/>
+                            </Form.Group>
+                        </Col>
+                    </Row>
 
-                <Row><Col>
-                <Form.Group controlId="spain" >
-                    <Form.Label >Español</Form.Label>
-                    <Form.Control name="spain"  type="text" defaultValue={this.state.spain}/>
-                </Form.Group>
+                    <Row>
+                        <Col>
+                    <Form.Group controlId="spain" >
+                        <Form.Label >Español</Form.Label>
+                        <Form.Control name="spain"  type="text" defaultValue={this.state.spain}/>
+                    </Form.Group>
                 </Col>
                 
                 </Row>

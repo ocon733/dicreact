@@ -1,7 +1,1 @@
-- recoger respuesta y avisar al usuario de error
-+ cambiar el color de los aprendidos
-+ sustituir el interruptor por tres botones ( cargar aprendidos, cargar no aprendidos, cargar todos)
-- consulta limitada a 25 palabras con botón más >> si hay disponibles
-+ opcion modo repaso para ocultar respuestas
-- sustituir todo el state por el store de redux
-+ corregir error en el alta de palabras ( no filtra bien por aprendidos)
+- 
