@@ -1,1 +1,4 @@
-- 
+- Pantalla nueva entrada pasarla a función con hooks
+- estilos material
+- poner spinner al guardar y consultar con BD controlado por acciones de redux
+- poner alert de sweetalert   (npm install sweetalert)

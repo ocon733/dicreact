@@ -1,0 +1,9 @@
+.cajaFormulario {
+    max-width: 900px;
+    padding: 20px;
+    margin:auto;
+}
+
+.MuiFormControl-root{
+    width: 100%;
+}
