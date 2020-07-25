@@ -53,7 +53,7 @@ const Nueva = (props) => {
            }
 
            
-           let boolAprendido = word.aprendido === 1 ? true : false;
+           let boolAprendido = word.aprendido === "1" ? true : false;
            
 
            setEntrada({english:word.english,
@@ -79,6 +79,7 @@ const Nueva = (props) => {
         }     
     
     const handlerChecked = e => { 
+        debugger
             setEntrada({ ...entrada,  [e.target.name]:e.target.checked    }) 
         }
     
@@ -153,7 +154,8 @@ const Nueva = (props) => {
     return (
         
         <Paper elevation={3} className="cajaFormulario">
-            <h4>Nueva entrada diccionario</h4>
+
+            <h4 style={{textAlign:"center",color:"darkgrey"}}><strong>{ modificar ? "Modificar entrada en diccionario" : "Nueva entrada en diccionario"}</strong></h4>
           
           <Form onSubmit={handleSubmit}>
               <Row>
@@ -199,7 +201,7 @@ const Nueva = (props) => {
                     <Form.Group controlId="aprendido" >
                     <FormControlLabel
                         control={<Checkbox color="primary" name="aprendido" 
-                                onChange={handlerChecked} checked={entrada.aprendido} />}
+                                onChange={handlerChecked} checked={entrada.aprendido} value={entrada.aprendido} />}
                         label ="Aprendido"
                      />   
                     </Form.Group>
