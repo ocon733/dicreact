@@ -1,7 +1,8 @@
-import { DESCARGA_DICCIONARIO_OK} from '../types';
+import { DESCARGA_DICCIONARIO_OK, INICIO_DESCARGA_DICCIONARIO} from '../types';
 
 const initialState = {
-    palabras: []
+    palabras: [],
+    cargando: false
 }
 
 export default function (state = initialState, action) {
@@ -9,7 +10,13 @@ export default function (state = initialState, action) {
         case DESCARGA_DICCIONARIO_OK : 
         return {
             ...state,
+            cargando: false,
             palabras: action.payload
+        }
+        case INICIO_DESCARGA_DICCIONARIO : 
+        return {
+            ...state,
+            cargando: action.payload,
         }
         default:
             return state;

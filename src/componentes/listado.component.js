@@ -11,6 +11,7 @@ import Link from "@material-ui/core/Link";
 import Buscador from './buscador.component';
 import { buscarConFiltroAction } from '../actions/listadoAction';
 import './listado.css';
+import Spinner from 'react-bootstrap/Spinner';
 
 const Listado = () => {
 
@@ -19,13 +20,17 @@ const Listado = () => {
     const idioma = useSelector (state =>state.buscador.idioma); 
     const filtro = useSelector (state =>state.buscador.filtro);
     const listado = useSelector (state => state.listado.palabras);
+    const cargando = useSelector (state => state.listado.cargando);
     const repaso = useSelector (state =>state.buscador.repaso);
 
+
     useEffect ( () => {
+ 
         const cargarDiccionario = () => dispatch(buscarConFiltroAction({palabra:filtro,idioma:idioma}));
         cargarDiccionario();
         // eslint-disable-next-line
     }, []);
+
 
     const estiloRepaso = ( ) => {
         if ( repaso){
@@ -59,7 +64,7 @@ const Listado = () => {
  
             <div>
                 <Buscador/>
-                
+                {cargando ? <Spinner className="spinner" animation="border" /> : null}
                 <TableContainer component={Paper}>
                     <Table  aria-label="simple table">
                     <TableHead>

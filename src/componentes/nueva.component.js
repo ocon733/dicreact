@@ -11,11 +11,13 @@ import './nueva.css';
 import { TextField, FormControlLabel } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import swal from 'sweetalert';
+import { NuevoAction, ModificaAction } from '../actions/nuevoAction';
+import { useDispatch } from 'react-redux';
 
 const Nueva = (props) => {
 
-
+    const dispatch = useDispatch();
+    
     const [entrada, setEntrada] = useState({
         english:'',
         spain:'',
@@ -116,19 +118,10 @@ const Nueva = (props) => {
             const data = new FormData ( t);
 
             if ( modificar){
-                fetch(Constantes.SERVIDOR + 'modificar.php', {
-                    method: 'POST', 
-                    body: data         
-                }).then(res => res)
-                .catch(error => console.error('Error:', error))
-                .then(response =>  swal("Modificado", "Se ha realizado la modificación correctamente", "success"));
+                dispatch(ModificaAction(data))
+
             }else{
-                fetch(Constantes.SERVIDOR + 'guardar.php', {
-                    method: 'POST', 
-                    body: data         
-                }).then(res => res)
-                .catch(error => console.error('Error:', error))
-                .then(response => swal("Guardado", "Se ha guardado correctamente", "success"));
+                dispatch(NuevoAction(data))               
             }
 
 
