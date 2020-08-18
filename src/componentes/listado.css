@@ -1,0 +1,23 @@
+.MuiTableCell-root{
+    padding:5px !important;
+    
+}
+
+.gris{
+    color: #585858 !important;
+}
+
+.cursiva {
+    font-style: italic;
+}
+
+.mini{
+    font-size: small !important;
+}
+
+.spinner{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+}

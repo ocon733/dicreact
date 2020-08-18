@@ -1,43 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import Button from 'react-bootstrap/Button';
+
 import Alert from 'react-bootstrap/Alert';
 import * as Constantes from '../Constantes';
+import Paper from '@material-ui/core/Paper';
+import './nueva.css';
+import { TextField, FormControlLabel } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import { NuevoAction, ModificaAction } from '../actions/nuevoAction';
+import { useDispatch } from 'react-redux';
 
-class Nueva extends React.Component{
-    constructor(props){
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.state = {
-            english:'',
-            spain:'',
-            descripcion:'',
-            relmemotec:'',
-            fonetic:'',
-            error: '',
-            modificar: false,
-            aprendido: false          
-        }
-        
-    }
-    componentDidMount() {
-        if ( this.props.match !== undefined && this.props.match.params !== undefined &&
-            this.props.match.params.id !== undefined){
-            const  id  = this.props.match.params.id;
-            this.setState({modificar:true});
-            this.cargarRegistro(id);
+const Nueva = (props) => {
+
+    const dispatch = useDispatch();
+    
+    const [entrada, setEntrada] = useState({
+        english:'',
+        spain:'',
+        descripcion:'',
+        relmemotec:'',
+        fonetic:'',
+        aprendido: false,
+        id:''
+    });
+
+    const [error, setError] = useState("");
+    const [modificar, setModificar] = useState(false);
+
+    useEffect( () => {
+        if ( props.match !== undefined && props.match.params !== undefined &&
+            props.match.params.id !== undefined){
+            const  id  = props.match.params.id;
+            setModificar(true);
+            cargarRegistro(id);
 
         }else{           
-           this.setState({modificar:false});
+            setModificar(false);
         }
-    }    
+    },[props.match]);
 
-    cargarRegistro(id){
+
+    function cargarRegistro(id){
         fetch(Constantes.SERVIDOR + 'buscar.php?id='+id)
         .then(res=> res.json())
         .then( res => {
@@ -47,11 +54,11 @@ class Nueva extends React.Component{
                 word = JSON.parse(res[x]);
            }
 
-           // eslint-disable-next-line
-           let boolAprendido = word.aprendido == 1 ? true : false;
+           
+           let boolAprendido = word.aprendido === "1" ? true : false;
            
 
-           this.setState({english:word.english,
+           setEntrada({english:word.english,
                         spain:word.spain,
                         descripcion:word.descripcion,
                         relmemotec:word.relmemotec,
@@ -63,37 +70,44 @@ class Nueva extends React.Component{
 
     }
 
-    handleSubmit(event){
+    function handleSubmit(event){
         event.preventDefault();
-        this.validaFormulario(event.target);
+        validaFormulario(event.target);
     }
 
-    handleChecked = (event) => {
-        this.setState({aprendido : !this.state.aprendido});
-    }
 
-    validaFormulario(t){
-        this.setState ({error: ""});
+    const handlerEntrada = e => { 
+            setEntrada({ ...entrada,  [e.target.name]:e.target.value    }) 
+        }     
+    
+    const handlerChecked = e => { 
+        debugger
+            setEntrada({ ...entrada,  [e.target.name]:e.target.checked    }) 
+        }
+    
+
+    function validaFormulario(t){
+        setError("");
         let isvalid = true;
         for( var e =0; e < t.length; e++){
             if ( t[e].name === "english" && t[e].value === ""){
-                this.setState ((state) => ({error : state.error + "Falta la palabra en inglés, "}));
+                setError(error + "Falta la palabra en inglés, ");
                 isvalid = false;
             }
             if ( t[e].name === "fonetic" && t[e].value === ""){
-                this.setState ((state) => ({error : state.error + "Falta la pronunciación figurada, "}));
+                setError(error + "Falta la pronunciación figurada, ");
                 isvalid = false;
             }
             if ( t[e].name === "spain" && t[e].value === ""){
-                this.setState ((state) => ({error : state.error + "Falta la traducción en español, "}));
+                setError(error + "Falta la traducción en español, ");
                 isvalid = false;
             }
             if ( t[e].name === "descripcion" && t[e].value === ""){
-                this.setState ((state) => ({error : state.error + "Falta la frase de uso habitual, "}));
+                setError(error + "Falta la frase de uso habitual, ");
                 isvalid = false;
             }
             if ( t[e].name === "relmemotec" && t[e].value === ""){
-                this.setState ((state) => ({error : state.error + "Falta la regla nemotécnica para memorizar, "}));
+                setError(error + "Falta la regla nemotécnica para memorizar, ");
                 isvalid = false;
             }
 
@@ -103,20 +117,11 @@ class Nueva extends React.Component{
             
             const data = new FormData ( t);
 
-            if ( this.state.modificar){
-                fetch(Constantes.SERVIDOR + 'modificar.php', {
-                    method: 'POST', 
-                    body: data         
-                }).then(res => res)
-                .catch(error => console.error('Error:', error))
-                .then(response => alert('Modificación realizada '));
+            if ( modificar){
+                dispatch(ModificaAction(data))
+
             }else{
-                fetch(Constantes.SERVIDOR + 'guardar.php', {
-                    method: 'POST', 
-                    body: data         
-                }).then(res => res)
-                .catch(error => console.error('Error:', error))
-                .then(response => alert('Guardado correctamente '));
+                dispatch(NuevoAction(data))               
             }
 
 
@@ -124,89 +129,88 @@ class Nueva extends React.Component{
         
     }
 
-    renderMensaje(){
-        if( this.state.error.length !== 0){
-            return(<Alert variant="danger"><p>{this.state.error}</p></Alert> );
+    function renderMensaje(){
+        if( error.length !== 0){
+            return(<Alert variant="danger"><p>{error}</p></Alert> );
         }
     }
 
-    renderBotonera(){
-        if( this.state.modificar){
-            return (<Button varian="primary" type="submit">Modificar</Button>);
+    function renderBotonera(){
+        if(modificar){
+            return (<Button variant="contained" size="small" color="primary" type="submit">Modificar</Button>);
         }else{
-            return (<Button varian="primary" type="submit">Guardar</Button>);
+            return (<Button variant="contained" size="small" color="primary" type="submit">Guardar</Button>);
         }
     }
 
 
-    render(){
-        return(
-            <Container>
-                
-            <Card><Card.Body>
-                <Card.Title><h3>Nueva entrada diccionario</h3></Card.Title>
-                
-            <Form onSubmit={this.handleSubmit}>
+    return (
+        
+        <Paper elevation={3} className="cajaFormulario">
+
+            <h4 style={{textAlign:"center",color:"darkgrey"}}><strong>{ modificar ? "Modificar entrada en diccionario" : "Nueva entrada en diccionario"}</strong></h4>
+          
+          <Form onSubmit={handleSubmit}>
+              <Row>
+                  <Col>  
+                      <Form.Group controlId="english" >
+                          <TextField id="english" label="Inglés"  name="english" 
+                          value={entrada.english} onChange={handlerEntrada}/>
+                      </Form.Group>
+                  </Col>
+
+                  <Col> 
+                      <Form.Group controlId="fonetic" >
+                          <TextField id="fonetic" label="Pronunciación fonética"  name="fonetic" 
+                          value={entrada.fonetic} onChange={handlerEntrada}/>
+                      </Form.Group>
+                  </Col>
+              </Row>
+
+              <Row>
+                  <Col>
+                        <Form.Group controlId="spain" >
+                            <TextField name="spain"  label="Español" value={entrada.spain} onChange={handlerEntrada}/>
+                        </Form.Group>
+                  </Col>
+          
+              </Row>
+
             <Row>
-                <Col>  
-                <Form.Group controlId="english" >
-                    <Form.Label >Inglés</Form.Label>
-                    <Form.Control name="english"  type="text" defaultValue={this.state.english}/>
-                </Form.Group>
-                </Col>
-
-                <Col> 
-                <Form.Group controlId="fonetic" >
-                    <Form.Label >Pronunciación fonética</Form.Label>
-                    <Form.Control name="fonetic"  type="text" defaultValue={this.state.fonetic}/>
-                </Form.Group>
-                </Col>
-                </Row>
-
-                <Row><Col>
-                <Form.Group controlId="spain" >
-                    <Form.Label >Español</Form.Label>
-                    <Form.Control name="spain"  type="text" defaultValue={this.state.spain}/>
-                </Form.Group>
-                </Col>
-                
-                </Row>
-
-                <Row><Col><Form.Group controlId="descripcion" >
-                    <Form.Label >Uso en frase en inglés</Form.Label>
-                    <Form.Control name="descripcion"  type="text" defaultValue={this.state.descripcion}/>
-                </Form.Group>
-                </Col>
-                </Row>
-
-                <Row><Col><Form.Group controlId="relmemotec" >
-                    <Form.Label >Regla memotécnica</Form.Label>
-                    <Form.Control name="relmemotec"  type="text" defaultValue={this.state.relmemotec}/>
-                </Form.Group></Col></Row>
-                <Row>
                 <Col>
-                <Form.Group controlId="aprendido" >
-                    <Form.Check name="aprendido"  type="checkbox" label ="Aprendido" onChange={this.handleChecked} checked={this.state.aprendido} />
-                </Form.Group></Col>
-                </Row>
-             
+                    <Form.Group controlId="descripcion" >
+                        <TextField label="Uso en frase en inglés" name="descripcion"  value={entrada.descripcion} onChange={handlerEntrada}/>
+                    </Form.Group>
+                </Col>
+            </Row>
 
+            <Row>
+                <Col>
+                    <Form.Group controlId="relmemotec" >
+                        <TextField label="Regla memotécnica" name="relmemotec"  value={entrada.relmemotec} onChange={handlerEntrada}/>
+                    </Form.Group></Col></Row>
+            <Row>
+                <Col>
+                    <Form.Group controlId="aprendido" >
+                    <FormControlLabel
+                        control={<Checkbox color="primary" name="aprendido" 
+                                onChange={handlerChecked} checked={entrada.aprendido} value={entrada.aprendido} />}
+                        label ="Aprendido"
+                     />   
+                    </Form.Group>
+                </Col>
+            </Row>
+       
+          <Form.Control name="id" type="hidden" defaultValue={entrada.id} />
 
-
-                <Form.Control name="id" type="hidden" defaultValue={this.state.id} />
-
-                {this.renderMensaje()}                
-<ButtonToolbar>
-    {this.renderBotonera()}
-</ButtonToolbar>
-              
-            </Form>
-            </Card.Body>
-            </Card>
-            </Container>
-        );
-    }
+          {renderMensaje()}                
+          <ButtonToolbar>
+            {renderBotonera()}
+          </ButtonToolbar>
+        
+          </Form>
+          </Paper>
+    )
 }
 
-export default Nueva;
-
+export default Nueva
