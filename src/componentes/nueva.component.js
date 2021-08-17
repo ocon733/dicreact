@@ -81,7 +81,6 @@ const Nueva = (props) => {
         }     
     
     const handlerChecked = e => { 
-        debugger
             setEntrada({ ...entrada,  [e.target.name]:e.target.checked    }) 
         }
     
