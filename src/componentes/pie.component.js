@@ -1,9 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-class Pie extends React.Component{
+const Pie = () => {
 
-  
-    fechaHoy(){
+    const fechaHoy = () => {
         let hoy = new Date();
         let dia = hoy.getDate().toString();
         let mes = (hoy.getMonth()+1).toString();
@@ -12,14 +11,11 @@ class Pie extends React.Component{
         return dia + "/" + mes + "/" + hoy.getFullYear();
     }
 
-    render(){
-        return(
-            <div>
-                <p style={{textAlign:'center'}}>{this.fechaHoy()}</p>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <p style={{textAlign:'center'}}>{fechaHoy()}</p>
+        </div>
+    )
 }
 
-export default Pie;
-
+export default Pie

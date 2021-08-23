@@ -1,3 +1,43 @@
+import React, { useContext, useState } from 'react'
+import { StoreContext } from '../store/StoreProvider';
+import { types } from '../store/storeReducer';
+import './buscador.css';
+
+const Buscador = () => {
+
+    const [store, dispatch] = useContext(StoreContext);
+    const [idioma, setIdioma] = useState("ing");
+    const [palabra, setPalabra] = useState("");
+
+    const handlerButton = () => {
+        
+        if ( store.idioma === "esp"){
+            dispatch({ type: types.CAMBIAR_IDIOMA, payload:"ing"});
+            setIdioma("ing")
+        }else{
+            dispatch({ type: types.CAMBIAR_IDIOMA, payload:"esp"});
+            setIdioma("esp")
+
+        }
+    }
+
+    const handlerBuscador = (e) => {
+        setPalabra( e.target.value);
+        dispatch({type: types.BUSCAR_PALABRA, payload: e.target.value});
+    }
+
+    return (
+        <div className="buscador_caja">
+            <input className="buscador_texto" type="text"  id="word" name="word" value={palabra}
+                onChange={handlerBuscador}></input>
+            <button onClick={handlerButton}>{idioma}</button>
+        </div>
+    )
+}
+
+export default Buscador
+
+/*
 import React, { Component } from 'react';
 import './buscador.css';
 
@@ -34,3 +74,4 @@ export default class Buscador extends Component {
         )
     }
 }
+*/
