@@ -12,15 +12,17 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Buscador from './buscador.component';
-import { StoreContext } from '../store/StoreProvider';
+import { useDispatch, useStore } from '../store/StoreProvider';
 import * as Constantes from '../Constantes';
 import { types } from '../store/storeReducer';
 import {Link} from "react-router-dom";
 
 const Listado = () => {
 
-    // var { isLoaded, items} = this.state;
-    const [store, dispatch] = useContext(StoreContext);
+    
+    const store = useStore();
+    const dispatch = useDispatch();
+
 
     const [isLoaded, setLoaded] = useState(false);
     const [items, setItems] = useState ([]);
