@@ -21,7 +21,9 @@ class Nueva extends React.Component{
             fonetic:'',
             error: '',
             modificar: false,
-            aprendido: false          
+            aprendido: 0,
+            tipo:''    
+
         }
         
     }
@@ -48,7 +50,7 @@ class Nueva extends React.Component{
            }
 
            // eslint-disable-next-line
-           let boolAprendido = word.aprendido == 1 ? true : false;
+           //let boolAprendido = word.aprendido == 1 ? true : false;
            
 
            this.setState({english:word.english,
@@ -57,7 +59,8 @@ class Nueva extends React.Component{
                         relmemotec:word.relmemotec,
                         fonetic:word.fonetic,
                         id:word.id,
-                        aprendido: boolAprendido
+                        aprendido: word.aprendido,
+                        tipo:word.tipo
                     });
         });
 
@@ -161,34 +164,45 @@ class Nueva extends React.Component{
                     <Form.Control name="fonetic"  type="text" defaultValue={this.state.fonetic}/>
                 </Form.Group>
                 </Col>
-                </Row>
+            </Row>
 
-                <Row><Col>
+            <Row>
+                <Col>
                 <Form.Group controlId="spain" >
                     <Form.Label >Español</Form.Label>
                     <Form.Control name="spain"  type="text" defaultValue={this.state.spain}/>
                 </Form.Group>
                 </Col>
-                
-                </Row>
+            </Row>
 
-                <Row><Col><Form.Group controlId="descripcion" >
+            <Row><Col><Form.Group controlId="descripcion" >
                     <Form.Label >Uso en frase en inglés</Form.Label>
                     <Form.Control name="descripcion"  type="text" defaultValue={this.state.descripcion}/>
                 </Form.Group>
                 </Col>
-                </Row>
+            </Row>
 
-                <Row><Col><Form.Group controlId="relmemotec" >
+            <Row><Col><Form.Group controlId="relmemotec" >
                     <Form.Label >Regla memotécnica</Form.Label>
                     <Form.Control name="relmemotec"  type="text" defaultValue={this.state.relmemotec}/>
-                </Form.Group></Col></Row>
-                <Row>
-                <Col>
+                </Form.Group></Col>
+            </Row>
+               
+            <Row>               
+                <Col><Form.Group controlId="tipo" >
+                    <Form.Label >Tipo de palabra</Form.Label>
+                    <Form.Control name="tipo"  type="text" defaultValue={this.state.tipo}/>
+                </Form.Group>
+                </Col>
+
+{/*}
+                <Col className="centrov">
                 <Form.Group controlId="aprendido" >
                     <Form.Check name="aprendido"  type="checkbox" label ="Aprendido" onChange={this.handleChecked} checked={this.state.aprendido} />
-                </Form.Group></Col>
-                </Row>
+                </Form.Group>
+                </Col>
+{*/}
+            </Row>
              
 
 

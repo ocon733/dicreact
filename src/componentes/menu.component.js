@@ -17,8 +17,8 @@ const Menu = () => {
         <Col md="auto">
      <Navbar expand="lg">
       <Nav className="mr-auto">
-        <Link  to="/listado">Listado completo </Link> |
-        <Link  to="/nueva"> Nueva entrada</Link>
+        <Link className="nav-link"  to="/listado">LISTADO</Link> 
+        <Link className="nav-link"  to="/nueva">NUEVA PALABRA</Link>
        </Nav>
      </Navbar>
      </Col>       

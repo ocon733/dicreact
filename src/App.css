@@ -8,3 +8,18 @@
     width: 100%;
     text-align: center;
 }
+
+.MuiTableCell-root{
+    padding: 5px !important;
+}
+
+.MuiTableCell-head{
+    background-color:gainsboro;
+    color: rgba(104, 104, 104, 0.87)  !important;
+    font-weight: bold  !important;
+}
+
+.centrov{
+    display: flex;
+   align-items: flex-end;
+}
