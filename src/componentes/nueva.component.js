@@ -8,16 +8,19 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import * as Constantes from '../Constantes';
+import { API } from 'aws-amplify';
+import { createTodo } from  '../graphql/mutations';
 
 class Nueva extends React.Component{
     constructor(props){
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
-            english:'',
+            id:'',
+            ingles:'',
             spain:'',
-            descripcion:'',
-            relmemotec:'',
+            frase:'',
+            nemo:'',
             fonetic:'',
             error: '',
             modificar: false,
@@ -53,10 +56,10 @@ class Nueva extends React.Component{
            //let boolAprendido = word.aprendido == 1 ? true : false;
            
 
-           this.setState({english:word.english,
+           this.setState({english:word.ingles,
                         spain:word.spain,
-                        descripcion:word.descripcion,
-                        relmemotec:word.relmemotec,
+                        descripcion:word.frase,
+                        relmemotec:word.nemo,
                         fonetic:word.fonetic,
                         id:word.id,
                         aprendido: word.aprendido,
@@ -79,7 +82,7 @@ class Nueva extends React.Component{
         this.setState ({error: ""});
         let isvalid = true;
         for( var e =0; e < t.length; e++){
-            if ( t[e].name === "english" && t[e].value === ""){
+            if ( t[e].name === "ingles" && t[e].value === ""){
                 this.setState ((state) => ({error : state.error + "Falta la palabra en inglés, "}));
                 isvalid = false;
             }
@@ -91,11 +94,11 @@ class Nueva extends React.Component{
                 this.setState ((state) => ({error : state.error + "Falta la traducción en español, "}));
                 isvalid = false;
             }
-            if ( t[e].name === "descripcion" && t[e].value === ""){
+            if ( t[e].name === "frase" && t[e].value === ""){
                 this.setState ((state) => ({error : state.error + "Falta la frase de uso habitual, "}));
                 isvalid = false;
             }
-            if ( t[e].name === "relmemotec" && t[e].value === ""){
+            if ( t[e].name === "nemo" && t[e].value === ""){
                 this.setState ((state) => ({error : state.error + "Falta la regla nemotécnica para memorizar, "}));
                 isvalid = false;
             }
@@ -105,21 +108,46 @@ class Nueva extends React.Component{
         if ( isvalid){
             
             const data = new FormData ( t);
+            var palabra = {};
 
             if ( this.state.modificar){
+                /*
                 fetch(Constantes.SERVIDOR + 'modificar.php', {
                     method: 'POST', 
                     body: data         
                 }).then(res => res)
                 .catch(error => console.error('Error:', error))
                 .then(response => alert('Modificación realizada '));
+                */
             }else{
-                fetch(Constantes.SERVIDOR + 'guardar.php', {
-                    method: 'POST', 
-                    body: data         
-                }).then(res => res)
-                .catch(error => console.error('Error:', error))
-                .then(response => alert('Guardado correctamente '));
+            
+                for( var e =0; e < t.length; e++){
+                    if ( t[e].name === "id" ){
+                        palabra.id = t[e].value;
+                    }
+                    if ( t[e].name === "ingles" ){
+                        palabra.ingles = t[e].value;
+                    }
+                    if ( t[e].name === "fonetic" ){
+                        palabra.fonetic = t[e].value;
+                    }
+                    if ( t[e].name === "spain" ){
+                        palabra.spain = t[e].value;
+                    }
+                    if ( t[e].name === "frase"  ){
+                        palabra.frase = t[e].value;
+                    }
+                    if ( t[e].name === "nemo" ){
+                        palabra.nemo = t[e].value;
+                    }
+
+                }
+
+
+          
+             API.graphql({"mutations": createTodo ({input:palabra})});                    
+                  
+
             }
 
 
@@ -151,10 +179,16 @@ class Nueva extends React.Component{
                 
             <Form onSubmit={this.handleSubmit}>
             <Row>
+            <Col>  
+                <Form.Group controlId="id" >
+                    <Form.Label >ID</Form.Label>
+                    <Form.Control name="id"  type="text" defaultValue={this.state.id}/>
+                </Form.Group>
+                </Col>
                 <Col>  
-                <Form.Group controlId="english" >
+                <Form.Group controlId="ingles" >
                     <Form.Label >Inglés</Form.Label>
-                    <Form.Control name="english"  type="text" defaultValue={this.state.english}/>
+                    <Form.Control name="ingles"  type="text" defaultValue={this.state.ingles}/>
                 </Form.Group>
                 </Col>
 
@@ -175,16 +209,16 @@ class Nueva extends React.Component{
                 </Col>
             </Row>
 
-            <Row><Col><Form.Group controlId="descripcion" >
+            <Row><Col><Form.Group controlId="frase" >
                     <Form.Label >Uso en frase en inglés</Form.Label>
-                    <Form.Control name="descripcion"  type="text" defaultValue={this.state.descripcion}/>
+                    <Form.Control name="frase"  type="text" defaultValue={this.state.frase}/>
                 </Form.Group>
                 </Col>
             </Row>
 
-            <Row><Col><Form.Group controlId="relmemotec" >
+            <Row><Col><Form.Group controlId="nemo" >
                     <Form.Label >Regla memotécnica</Form.Label>
-                    <Form.Control name="relmemotec"  type="text" defaultValue={this.state.relmemotec}/>
+                    <Form.Control name="nemo"  type="text" defaultValue={this.state.nemo}/>
                 </Form.Group></Col>
             </Row>
                
@@ -194,20 +228,12 @@ class Nueva extends React.Component{
                     <Form.Control name="tipo"  type="text" defaultValue={this.state.tipo}/>
                 </Form.Group>
                 </Col>
-
-{/*}
-                <Col className="centrov">
-                <Form.Group controlId="aprendido" >
-                    <Form.Check name="aprendido"  type="checkbox" label ="Aprendido" onChange={this.handleChecked} checked={this.state.aprendido} />
-                </Form.Group>
-                </Col>
-{*/}
             </Row>
              
 
 
 
-                <Form.Control name="id" type="hidden" defaultValue={this.state.id} />
+               
 
                 {this.renderMensaje()}                
 <ButtonToolbar>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -17,6 +17,9 @@ import * as Constantes from '../Constantes';
 import { types } from '../store/storeReducer';
 import {Link} from "react-router-dom";
 import './listado.css';
+import { listTodos } from  '../graphql/queries';
+import  { API } from 'aws-amplify';
+
 
 const Listado = () => {
 
@@ -24,31 +27,18 @@ const Listado = () => {
     const store = useStore();
     const dispatch = useDispatch();
 
-
-    const [isLoaded, setLoaded] = useState(false);
     const [items, setItems] = useState ([]);
 
 
     useEffect(() => {
+        fetchNotes();
         
-        fetch(Constantes.SERVIDOR + "consulta.php?opcion=t")
-        .then(res=> res.json())
-        .then( res => {
-        var arr = [];
-        for (var x=0; x<res.length; x ++ ) {
-                arr.push( JSON.parse(res[x]));
-        }
-        return arr;
-        })
-    .then(json => {
-            setLoaded(true);
-            setItems(json);
-        });
     }, []);
 
-
-
-
+    async function fetchNotes() {
+        const apiData = await API.graphql({ query: listTodos });
+        setItems(apiData.data.listTodos.items);
+      }
 
     const buscarPalabra = () => {
         
@@ -66,16 +56,11 @@ const Listado = () => {
         });
     }
 
-    const renderImagenAprendido = (id, aprendido) => {
-        let rutaimg = "";
-        if( aprendido === '1'){
-            rutaimg = "pencil_a.png";
-        }else{
-            rutaimg = "pencil_b.png";
-        }
-        return(<Link to={"/edit"+id} title="editar"><img src={rutaimg} alt="editar" width="25" height="25" /></Link> );
+    const renderImagen = (id) => {
+        return(<Link to={"/edit"+id} title="editar"><img src="pencil_a.png" alt="editar" width="25" height="25" /></Link> );
     }
 
+    // modo repaso
     const estiloAprendido = ( option) => {
         if ( store.filtrar){
             return{
@@ -129,6 +114,7 @@ const Listado = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell></TableCell>
+                            <TableCell align="center" >ID</TableCell>
                             <TableCell align="center" >Inglés</TableCell>
                             <TableCell  align="center">Fonética</TableCell>
                             <TableCell  align="center">Español</TableCell>
@@ -141,12 +127,13 @@ const Listado = () => {
                   <TableBody>
                     {items.map(item=>(
                       <TableRow key={item.id} >
-                        <TableCell component="th" scope="item"> {renderImagenAprendido(item.id,item.aprendido)} <span className="tipo">({item.tipo})</span> </TableCell>
-                        <TableCell align="center" className="ing">{item.english}</TableCell>
+                        <TableCell component="th" scope="item"> {renderImagen(item.id)} <span className="tipo">({item.tipo})</span> </TableCell>
+                        <TableCell align="center" >{item.id}</TableCell>
+                        <TableCell align="center" className="ing">{item.ingles}</TableCell>
                         <TableCell align="center" className="cur">{item.fonetic}</TableCell>
                         <TableCell align="center" style={estiloAprendido(item.aprendido)} className="ing">{item.spain}</TableCell>
-                        <TableCell >{item.relmemotec}</TableCell>
-                        <TableCell style={estiloAprendido(item.aprendido)}>{item.descripcion}</TableCell>
+                        <TableCell >{item.nemo}</TableCell>
+                        <TableCell style={estiloAprendido(item.aprendido)}>{item.frase}</TableCell>
                         
                       </TableRow>
                     ))}
