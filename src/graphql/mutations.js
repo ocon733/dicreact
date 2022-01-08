@@ -2,22 +2,6 @@
 // this is an auto generated file. This will be overwritten
 
 export const createTodo = /* GraphQL */ `
-  mutation CreateTodo {
-    createTodo(input: $input) {
-      id
-      ingles
-      fonetic
-      spain
-      frase
-      nemo
-      tipo
-      createdAt
-      updatedAt
-    }
-  }
-`;
-/*
-export const createTodo =  `
   mutation CreateTodo(
     $input: CreateTodoInput!
     $condition: ModelTodoConditionInput
@@ -35,7 +19,7 @@ export const createTodo =  `
     }
   }
 `;
-*/
+
 export const updateTodo = /* GraphQL */ `
   mutation UpdateTodo(
     $input: UpdateTodoInput!
