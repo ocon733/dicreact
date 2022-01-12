@@ -18,7 +18,7 @@ import { types } from '../store/storeReducer';
 import {Link} from "react-router-dom";
 import './listado.css';
 import { listTodos } from  '../graphql/queries';
-import  { API } from 'aws-amplify';
+import  { API,graphqlOperation } from 'aws-amplify';
 
 
 const Listado = () => {
@@ -36,7 +36,7 @@ const Listado = () => {
     }, []);
 
     async function fetchNotes() {
-        const apiData = await API.graphql({ query: listTodos });
+        const apiData = await API.graphql(graphqlOperation (listTodos));
         setItems(apiData.data.listTodos.items);
       }
 

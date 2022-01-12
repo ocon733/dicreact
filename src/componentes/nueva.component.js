@@ -8,7 +8,7 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import * as Constantes from '../Constantes';
-import { API } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import { createTodo } from  '../graphql/mutations';
 
 class Nueva extends React.Component{
@@ -145,7 +145,7 @@ class Nueva extends React.Component{
 
 
           
-             API.graphql({"mutations": createTodo ({input:palabra})});                    
+              API.graphql(graphqlOperation(createTodo, {input:palabra}));                    
                   
 
             }
