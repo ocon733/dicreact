@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@aws-amplify/ui-react": "^2.1.5",
+    "@aws-amplify/auth": "^4.3.20",
+    "@aws-amplify/ui-react": "latest",
     "@material-ui/core": "^4.12.3",
-    "aws-amplify": "^4.3.11",
+    "aws-amplify": "latest",
     "bootstrap": "^4.6.1",
-    "graphql": "^16.2.0",
+    "graphql": "^15.0.0",
     "prop-types": "^15.8.0",
     "ra-data-graphql": "^3.19.1",
     "react": "^16.14.0",
@@ -15,7 +16,7 @@
     "react-dom": "^16.14.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "^5.0.0",
     "redux": "^4.1.2"
   },
   "scripts": {
