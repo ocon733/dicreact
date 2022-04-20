@@ -14,7 +14,6 @@ import { apiCargaRegistro, apiGuardar, apiModificar } from '../api/services';
 const Nueva = () => {
 
     const location = useLocation();
-    //const { from } = location.state;
 
     const [item, setItem] = useState ({
         english:'',
@@ -22,7 +21,7 @@ const Nueva = () => {
         descripcion:'',
         relmemotec:'',
         fonetic:'',
-        aprendido: 0,
+        aprendido: '0',
         tipo:'',
         variantes:''    
     });
@@ -87,10 +86,26 @@ const Nueva = () => {
         validaFormulario(event.target);
     }
 
+    const valorInverso = (c) => {
+        if ( c === '0') {
+            return '1';}
+        else if ( c === '1') {
+            return '0';}
+        else{
+            return c;
+        }
+    }
+
+    const numberToBoolean =  (n) =>{
+        if ( n === '1'){
+            return true;
+        }else{
+            return false
+        }
+    }
+
     const handleChecked = (event) => {
-        let temp = item;
-        temp.aprendido = !temp.aprendido;
-        setItem(temp);
+        setItem({...item, [event.target.name]: valorInverso ( event.target.value)});
     }
 
     const validaFormulario = (t) =>{
@@ -118,27 +133,20 @@ const Nueva = () => {
                 isvalid = false;
             }
             setError ( msgError);
-
         }
-
-        if ( isvalid){
-            
+        if ( isvalid){          
             const data = new FormData ( t);
-          
-
             if ( modificar){
-               modificaRegistro(data);
-               
+               modificaRegistro(data);            
             }else{
-
                 guardaRegistro(data);             
             }
-
         }else{
             setAviso({mostrar:true,cabecera:'Faltan campos',mensaje:error,tipo:'danger'});
-        }
-        
+       }       
     }
+
+
 
 
 
@@ -217,7 +225,10 @@ const Nueva = () => {
 
             <Col className="centrov">
             <Form.Group controlId="aprendido" >
-                <Form.Check name="aprendido"  type="checkbox" label ="Aprendido" onChange={() => handleChecked} checked={item.aprendido} />
+                <Form.Check name="aprendido" id="aprendido"  type="checkbox" label ="Aprendido" 
+                onChange={ handleChecked} 
+                checked={numberToBoolean(item.aprendido)}
+                value={item.aprendido} />
             </Form.Group>
             </Col>
 

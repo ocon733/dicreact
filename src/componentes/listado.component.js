@@ -52,9 +52,9 @@ const Listado = () => {
  
         let rutaimg = "";
         if( aprendido === '1'){
-            rutaimg = "pencil_a.png";
+            rutaimg = "/diccionario/pencil_a.png";
         }else{
-            rutaimg = "pencil_b.png";
+            rutaimg = "/diccionario/pencil_b.png";
          }
 
         return(<Link to={"/edit/"+id} state={{from:id}} title="editar"><img src={rutaimg} title={id}/></Link> );
