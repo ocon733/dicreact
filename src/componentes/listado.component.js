@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,13 +13,12 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Buscador from './buscador.component';
 import { useDispatch, useStore } from '../store/StoreProvider';
-import * as Constantes from '../Constantes';
+import Alert from 'react-bootstrap/Alert';
 import { types } from '../store/storeReducer';
 import {Link} from "react-router-dom";
 import './listado.css';
-import { listTodos } from  '../graphql/queries';
-import  { API,graphqlOperation } from 'aws-amplify';
 
+import { apibusca } from '../api/services';
 
 const Listado = () => {
 
@@ -27,40 +26,40 @@ const Listado = () => {
     const store = useStore();
     const dispatch = useDispatch();
 
+
+    const [isLoaded, setLoaded] = useState(false);
     const [items, setItems] = useState ([]);
+    const [aviso, setAviso] = useState({mostrar:false,cabecera:'',mensaje:''});
 
 
     useEffect(() => {
-        fetchNotes();
         
+        buscarPalabra();
     }, []);
 
-    async function fetchNotes() {
-        const apiData = await API.graphql(graphqlOperation (listTodos));
-        setItems(apiData.data.listTodos.items);
-      }
-
-    const buscarPalabra = () => {
-        
-        fetch(Constantes.SERVIDOR + "consultafiltro.php?palabra=" + store.palabra + "&idioma=" + store.idioma)
-        .then(res=> res.json())
-        .then( res => {
-        var arr = [];
-        for (var x=0; x<res.length; x ++ ) {
-                arr.push( JSON.parse(res[x]));
+      
+        const buscarPalabra = async() => {
+            try  {
+                const data = await apibusca(store.palabra, store.idioma);
+                setLoaded(true);
+                setItems(data);           
+            }catch(err ) {
+               setAviso({mostrar:true,cabecera:'Error',mensaje:'No se ha podido realizar la búsqueda'})
+            };
         }
-        return arr;
-        })
-    .then(json => {
-        setItems(json);
-        });
+
+    const renderImagenAprendido = (id, aprendido) => {
+ 
+        let rutaimg = "";
+        if( aprendido === '1'){
+            rutaimg = "pencil_a.png";
+        }else{
+            rutaimg = "pencil_b.png";
+         }
+
+        return(<Link to={"/edit/"+id} state={{from:id}} title="editar"><img src={rutaimg} title={id}/></Link> );
     }
 
-    const renderImagen = (id) => {
-        return(<Link to={"/edit"+id} title="editar"><img src="pencil_a.png" alt="editar" width="25" height="25" /></Link> );
-    }
-
-    // modo repaso
     const estiloAprendido = ( option) => {
         if ( store.filtrar){
             return{
@@ -81,6 +80,16 @@ const Listado = () => {
      const handlerChangeFiltro = () => {
         dispatch({ type: types.FINDALL, payload:store.filtrar});
      }
+
+     const renderAviso = () =>{
+      
+        if ( aviso.mostrar){
+                return(<Alert variant="info" dismissible  onClose={()=>{ setAviso({mostrar:false,cabecera:'',mensaje:''}); } }>
+                    <Alert.Heading>{aviso.cabecera}</Alert.Heading>
+                    <hr/>
+                    <p>{aviso.mensaje}</p></Alert> );            
+        }
+    }
 
 
 
@@ -114,32 +123,35 @@ const Listado = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell></TableCell>
-                            <TableCell align="center" >ID</TableCell>
                             <TableCell align="center" >Inglés</TableCell>
                             <TableCell  align="center">Fonética</TableCell>
                             <TableCell  align="center">Español</TableCell>
                             <TableCell  align="center">Regla nemotécnica</TableCell>
                             <TableCell  align="center">Frase</TableCell>
-                            
+                            <TableCell  align="center">Tipo</TableCell>
                             
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {items.map(item=>(
                       <TableRow key={item.id} >
-                        <TableCell component="th" scope="item"> {renderImagen(item.id)} <span className="tipo">({item.tipo})</span> </TableCell>
-                        <TableCell align="center" >{item.id}</TableCell>
-                        <TableCell align="center" className="ing">{item.ingles}</TableCell>
+                        <TableCell component="th" scope="item"> {renderImagenAprendido(item.id,item.aprendido)}</TableCell>
+                        <TableCell align="center" className="ing">{item.english}</TableCell>
                         <TableCell align="center" className="cur">{item.fonetic}</TableCell>
                         <TableCell align="center" style={estiloAprendido(item.aprendido)} className="ing">{item.spain}</TableCell>
-                        <TableCell >{item.nemo}</TableCell>
-                        <TableCell style={estiloAprendido(item.aprendido)}>{item.frase}</TableCell>
-                        
+                        <TableCell >{item.relmemotec}</TableCell>
+                        <TableCell style={estiloAprendido(item.aprendido)}>{item.descripcion}</TableCell>
+                        <TableCell align="center" > <span className="tipo">({item.tipo})</span>{item.variantes}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </TableContainer>
+              {
+                 isLoaded ? "" : <p> Cargando datos ... </p> 
+              }
+
+            {renderAviso()}
               </div>
             
         );

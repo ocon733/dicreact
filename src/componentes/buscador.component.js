@@ -4,6 +4,9 @@ import React, { useContext, useState } from 'react'
 import { StoreContext } from '../store/StoreProvider';
 import { types } from '../store/storeReducer';
 import './buscador.css';
+// ----------------------------->> https://codesandbox.io/s/vxx3r8ox0?file=/src/api.js
+// https://www.appfocused.com/blog/autocomplete-typescript-react-rxjs/
+
 
 const Buscador = () => {
 
@@ -37,4 +40,4 @@ const Buscador = () => {
     )
 }
 
-export default Buscador
+export default Buscador;
