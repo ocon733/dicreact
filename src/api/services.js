@@ -17,4 +17,13 @@ export const apiCargaRegistro = async (id) => {
     return word;
 }
 
+export const apiGuardar = async (form) => {
+    const resp = await axios.post( Constantes.SERVIDOR + 'guardar.php', form);
+    return resp.data;
+}
 
+
+export const apiModificar = async (form) => {
+    const resp = await axios.post( Constantes.SERVIDOR + 'modificar.php', form);
+    return resp.data;
+}

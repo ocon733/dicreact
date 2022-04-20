@@ -8,8 +8,7 @@ import Row from 'react-bootstrap/Row';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-import * as Constantes from '../Constantes';
-import { apiCargaRegistro } from '../api/services';
+import { apiCargaRegistro, apiGuardar, apiModificar } from '../api/services';
 
 
 const Nueva = () => {
@@ -30,9 +29,9 @@ const Nueva = () => {
 
     const [modificar, setModificar] = useState(false);
     const [error, setError] = useState('');
-    const [mostrarMsg, setMostrarMsg] = useState(false);
-    const [mostrarAviso, setMostrarAviso] = useState(false);
-    const [correcto, setCorrecto] = useState(true);
+
+
+    const [aviso, setAviso] = useState({mostrar:false,cabecera:'',mensaje:'',tipo:'success'});
 
     useEffect(() => {
         if ( location !== undefined && location.state !== null && location.state.from !== undefined){
@@ -40,7 +39,7 @@ const Nueva = () => {
             cargarRegistro(location.state.from);
         }
 
-    }, [correcto]);
+    }, []);
 
 
     const cargarRegistro = async(id) => {
@@ -49,12 +48,37 @@ const Nueva = () => {
             setItem({english:word.english, spain:word.spain, descripcion:word.descripcion, relmemotec:word.relmemotec, fonetic:word.fonetic, id:word.id, aprendido: word.aprendido, tipo:word.tipo, variantes:word.variantes });
 
         }catch( err){
-            alert ( err);
+            console.log(err);
         };
-
     }
 
+    const guardaRegistro = async(data) => {
+        try{
+            const resp = await apiGuardar(data);
+            if ( resp){
+                setAviso({mostrar:true,cabecera:'Guardado correcto',mensaje:'Se ha guardado correctamente',tipo:'success'});
+            }else{
+                setAviso({mostrar:true,cabecera:'Guardado incorrecto',mensaje:'No se ha guardado correctamente',tipo:'danger'});
+            }
 
+        }catch(err){
+           console.log(err);
+        }
+    }
+
+    const modificaRegistro = async(data) => {
+        try{
+            const resp = await apiModificar(data);
+            if ( resp){
+                setAviso({mostrar:true,cabecera:'Modificación correcta',mensaje:'Se ha modificado correctamente',tipo:'success'});
+            }else{
+                setAviso({mostrar:true,cabecera:'Modificación incorrecta',mensaje:'No se ha modificado correctamente',tipo:'danger'});
+            }
+
+        }catch(err){
+           console.log(err);
+        }
+    }
 
 
 
@@ -103,63 +127,30 @@ const Nueva = () => {
           
 
             if ( modificar){
-                fetch(Constantes.SERVIDOR + 'modificar.php', {
-                    method: 'POST', 
-                    body: data         
-                }).then(res => res.json())
-                .catch(error => {
-                    setCorrecto ( error);
-                    setMostrarAviso(true);
-                })
-                .then(response => {
-                    setCorrecto ( response);
-                    setMostrarAviso(true);
-                });
+               modificaRegistro(data);
+               
             }else{
-                fetch(Constantes.SERVIDOR + 'guardar.php', {
-                    method: 'POST', 
-                    body: data         
-                }).then(res => res)
-                .catch(error => {
-                    setCorrecto ( error);
-                    setMostrarAviso(true);
-                })
-                .then(response => {
-                    setCorrecto ( response);
-                    setMostrarAviso(true);
-                });
+
+                guardaRegistro(data);             
             }
 
-            
-
-
         }else{
-            setMostrarMsg(true);
+            setAviso({mostrar:true,cabecera:'Faltan campos',mensaje:error,tipo:'danger'});
         }
         
     }
 
-    const renderMensaje = () =>{
-
-        if( error.length !== 0 && mostrarMsg){
-            return(<Alert variant="danger"  dismissible onClose={()=>{ setMostrarMsg(false); setError("");} }><p>{error}</p></Alert> );
-        }
-    }
 
 
     const renderAviso = () =>{
       
-        if ( mostrarAviso){
-            if( correcto === true){
-                return(<Alert variant="success" dismissible  onClose={()=>{ setMostrarAviso(false); } }><p>Cambios guardados correctamente</p></Alert> );
-            }else if (correcto === false){
-                return(<Alert variant="danger" dismissible onClose={()=>{ setMostrarAviso(false); } }><p>No se han podido guardar los cambios</p></Alert> );
-            }else{
-                return ("");
-            }
+        if ( aviso.mostrar){
+                return(<Alert variant={aviso.tipo} dismissible  onClose={()=>{ setAviso({mostrar:false,tipo:'success',cabecera:'',mensaje:''}); } }>
+                    <Alert.Heading>{aviso.cabecera}</Alert.Heading>
+                    <hr/>
+                    <p>{aviso.mensaje}</p></Alert> );            
         }
     }
-
 
 
 
@@ -243,8 +234,7 @@ const Nueva = () => {
 
 
             <Form.Control name="id" type="hidden" defaultValue={item.id} />
-
-            {renderMensaje()}           
+       
             {renderAviso()}
 
             <ButtonToolbar>
