@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -35,6 +35,7 @@ const Listado = () => {
     useEffect(() => {
         
         buscarPalabra();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
       
@@ -57,7 +58,7 @@ const Listado = () => {
             rutaimg = "/diccionario/pencil_b.png";
          }
 
-        return(<Link to={"/edit/"+id} state={{from:id}} title="editar"><img src={rutaimg} title={id}/></Link> );
+        return(<Link to={"/edit/"+id} state={{from:id}} title="editar"><img src={rutaimg} title={id} alt="editar"/></Link> );
     }
 
     const estiloAprendido = ( option) => {
