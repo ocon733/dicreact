@@ -1,8 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 
-## Run aplication in
-http://15.236.197.117/diccionario/
 
 ## Available Scripts
 

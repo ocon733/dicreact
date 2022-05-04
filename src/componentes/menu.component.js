@@ -28,6 +28,7 @@ const Menu = () => {
         <Route path='/listado'  element= {<Listado/>} />
         <Route path='/nueva' element= {<Nueva /> } />
         <Route path='/edit/:id' element={<Nueva/>}/>
+        <Route path='/'  element= {<Listado/>} />
       </Routes>
     </div>
   </Router>

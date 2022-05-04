@@ -142,7 +142,7 @@ const Listado = () => {
                         <TableCell align="center" style={estiloAprendido(item.aprendido)} className="ing">{item.spain}</TableCell>
                         <TableCell >{item.relmemotec}</TableCell>
                         <TableCell style={estiloAprendido(item.aprendido)}>{item.descripcion}</TableCell>
-                        <TableCell align="center" > <span className="tipo">({item.tipo})</span>{item.variantes}</TableCell>
+                        <TableCell align="center" > <span className="tipo">({item.tipo})</span><br/>{item.variantes}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
